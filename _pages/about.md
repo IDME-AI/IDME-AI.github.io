@@ -40,3 +40,26 @@ For site content, there is one markdown file for each type of content, which are
 For more info
 ------
 More info about configuring Academic Pages can be found in [the guide](https://academicpages.github.io/markdown/), the [growing wiki](https://github.com/academicpages/academicpages.github.io/wiki), and you can always [ask a question on GitHub](https://github.com/academicpages/academicpages.github.io/discussions). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful.
+
+## Out-of-distribution on Graphs
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
+
+  <!-- 图片1 -->
+  <div style="width: 30%; text-align: center;">
+    <img src="../images/profile.png" alt="Image 1" style="width: 100%; border-radius: 10px;">
+    <p style="margin-top: 8px;">图片1的介绍文字</p>
+  </div>
+
+  <!-- 图片2 -->
+  <div style="width: 30%; text-align: center;">
+    <img src="../images/profile.png" alt="Image 2" style="width: 100%; border-radius: 10px;">
+    <p style="margin-top: 8px;">图片2的介绍文字</p>
+  </div>
+
+  <!-- 图片3 -->
+  <div style="width: 30%; text-align: center;">
+    <img src="../images/profile.png" alt="Image 3" style="width: 100%; border-radius: 10px;">
+    <p style="margin-top: 8px;">图片3的介绍文字</p>
+  </div>
+
+</div>
