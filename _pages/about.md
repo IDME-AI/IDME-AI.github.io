@@ -31,25 +31,3 @@ redirect_from:
 5. 光合基金领军专家
 
 
-## Out-of-distribution on Graphs
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
-
-  <!-- 图片1 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/site-logo.png" alt="Image 1" style="width: 100%; border-radius: 10px;">
-    <p style="margin-top: 8px;">图片1的介绍文字</p>
-  </div>
-
-  <!-- 图片2 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/site-logo.png" alt="Image 2" style="width: 100%; border-radius: 10px;">
-    <p style="margin-top: 8px;">图片2的介绍文字</p>
-  </div>
-
-  <!-- 图片3 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/site-logo.png" alt="Image 3" style="width: 100%; border-radius: 10px;">
-    <p style="margin-top: 8px;">图片3的介绍文字</p>
-  </div>
-
-</div>
