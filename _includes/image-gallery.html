@@ -2,6 +2,7 @@
     .filter-buttons {
         margin-bottom: 20px;
     }
+
     .filter-buttons button {
         margin: 5px;
         padding: 8px 16px;
@@ -10,31 +11,68 @@
         background-color: #ddd;
         cursor: pointer;
     }
+
     .filter-buttons button.active {
         background-color: #007acc;
         color: white;
     }
+
     .gallery-grid {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
     }
+
     .gallery-item {
         width: calc(33.333% - 20px);
-        box-shadow: 0 0 6px rgba(0,0,0,0.1);
-        border-radius: 8px;
-        overflow: hidden;
         text-align: center;
     }
-    .gallery-item img {
+
+    .gallery-img-wrapper {
         width: 100%;
-        height: auto;
-        display: block;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     }
+
+    .gallery-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 裁剪居中填充 */
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+
     .gallery-title {
         padding: 10px;
         font-weight: bold;
     }
+
+    /* Lightbox 样式 */
+    #lightbox {
+        position: fixed;
+        z-index: 999;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
+
+    #lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+        box-shadow: 0 0 20px #fff;
+    }
+
+    #lightbox:target {
+        display: flex;
+    }
+
     @media (max-width: 768px) {
         .gallery-item {
             width: 100%;
@@ -42,13 +80,20 @@
     }
 </style>
 
-<div class="filter-buttons" id="tag-buttons"></div>
-<div class="gallery-grid" id="gallery"></div>
+<div className="filter-buttons" id="tag-buttons"></div>
+<div className="gallery-grid" id="gallery"></div>
+
+<!-- Lightbox 模态图层 -->
+<div id="lightbox" onClick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="full image">
+</div>
 
 <script>
-    const galleryImages = {{ include.data | jsonify }};
+    const galleryImages = {{include.data | jsonify}};
     const tagButtonsContainer = document.getElementById("tag-buttons");
     const gallery = document.getElementById("gallery");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
 
     let currentTag = "全部";
     const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
@@ -77,11 +122,18 @@
                 const item = document.createElement("div");
                 item.className = "gallery-item";
                 item.innerHTML = `
-          <img src="${img.src}" alt="${img.title}">
+          <div class="gallery-img-wrapper">
+            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}')">
+          </div>
           <div class="gallery-title">${img.title}</div>
         `;
                 gallery.appendChild(item);
             });
+    }
+
+    function openLightbox(src) {
+        lightbox.style.display = "flex";
+        lightboxImg.src = src;
     }
 
     renderButtons();
