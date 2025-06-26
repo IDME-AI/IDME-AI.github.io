@@ -55,7 +55,7 @@ author_profile: true
 <!-- JavaScript 逻辑 -->
 <script>
   const images = [
-    { src: "/images/profile.jpg", title: "实验室合影", tags: ["团队", "活动"] }
+    { src: "../images/profile.jpg", title: "实验室合影", tags: ["团队", "活动"] }
   ];
 
   const tagButtonsContainer = document.getElementById("tag-buttons");
