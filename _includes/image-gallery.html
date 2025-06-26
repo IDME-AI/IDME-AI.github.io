@@ -2,7 +2,6 @@
     .filter-buttons {
         margin-bottom: 20px;
     }
-
     .filter-buttons button {
         margin: 5px;
         padding: 8px 16px;
@@ -10,8 +9,8 @@
         border-radius: 5px;
         background-color: #ddd;
         cursor: pointer;
+        transition: all 0.3s ease;
     }
-
     .filter-buttons button.active {
         background-color: #007acc;
         color: white;
@@ -20,28 +19,34 @@
     .gallery-grid {
         display: flex;
         flex-wrap: wrap;
+        justify-content: space-between;
         gap: 20px;
     }
 
     .gallery-item {
-        width: calc(33.333% - 20px);
+        flex: 0 0 calc(33.333% - 14px); /* 每行3个，考虑间距 */
+        box-sizing: border-box;
         text-align: center;
     }
 
     .gallery-img-wrapper {
         width: 100%;
-        height: 200px;
+        height: 250px; /* ✅ 设置统一高度 */
         overflow: hidden;
         border-radius: 8px;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
 
     .gallery-img-wrapper img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* 裁剪居中填充 */
+        object-fit: cover; /* ✅ 裁剪居中 */
         cursor: pointer;
-        transition: transform 0.3s;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-img-wrapper img:hover {
+        transform: scale(1.05);
     }
 
     .gallery-title {
@@ -54,11 +59,9 @@
         position: fixed;
         z-index: 999;
         display: none;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
         justify-content: center;
         align-items: center;
     }
@@ -67,29 +70,29 @@
         max-width: 90%;
         max-height: 90%;
         box-shadow: 0 0 20px #fff;
-    }
-
-    #lightbox:target {
-        display: flex;
+        border-radius: 10px;
     }
 
     @media (max-width: 768px) {
         .gallery-item {
-            width: 100%;
+            flex: 0 0 100%;
         }
     }
 </style>
 
-<div className="filter-buttons" id="tag-buttons"></div>
-<div className="gallery-grid" id="gallery"></div>
+<!-- 按钮区 -->
+<div class="filter-buttons" id="tag-buttons"></div>
 
-<!-- Lightbox 模态图层 -->
-<div id="lightbox" onClick="this.style.display='none'">
+<!-- 图片区 -->
+<div class="gallery-grid" id="gallery"></div>
+
+<!-- Lightbox 弹窗 -->
+<div id="lightbox" onclick="this.style.display='none'">
     <img id="lightbox-img" src="" alt="full image">
 </div>
 
 <script>
-    const galleryImages = {{include.data | jsonify}};
+    const galleryImages = {{ include.data | jsonify }};
     const tagButtonsContainer = document.getElementById("tag-buttons");
     const gallery = document.getElementById("gallery");
     const lightbox = document.getElementById("lightbox");
