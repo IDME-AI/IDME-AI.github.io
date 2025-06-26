@@ -11,8 +11,14 @@ main:
   - title: "Publications"
     url: /publications/
 
+  - title: "Grants"
+    url: /grants/
+
 #  - title: "Talks"
 #    url: /talks/
+
+  - title: "Services"
+    url: /services/
 
   - title: "Teaching"
     url: /teaching/    
@@ -32,5 +38,5 @@ main:
 #  - title: "Guide"
 #    url: /markdown/
 
-  - title: "Students"
-    url: /students/
+  - title: "News"
+    url: /news/
