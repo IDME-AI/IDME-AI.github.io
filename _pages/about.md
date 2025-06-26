@@ -22,7 +22,7 @@ redirect_from:
 4. 知识图谱
 5. 时间序列分析
 
-Getting started
+社会兼职
 ======
 1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
 1. Fork [this template](https://github.com/academicpages/academicpages.github.io) by clicking the "Use this template" button in the top right. 
