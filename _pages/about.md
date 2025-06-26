@@ -1,13 +1,17 @@
 ---
 permalink: /
-title: "Xin Bi"
+title: "个人简介"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
 
-This is the front page of a website that is powered by the [Academic Pages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the repository. This template was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then extended to support the kinds of content that academics have: publications, talks, teaching, a portfolio, blog posts, and a dynamically-generated CV. You can fork [this template](https://github.com/academicpages/academicpages.github.io) right now, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free, with no ads!
+毕鑫，副教授，博士生导师。沈阳市高层次人才（领军人才），CSRME人工智能专委常委，iGEO期刊青年编委，光合基金领军专家，东北大学重大科技基础设施协同总控与大数据云平台负责人。依托东北大学校长冯夏庭院士的深采全国重点实验，面向国家深地重大战略需求，开展人工智能、大数据管理与分析技术在深部工程中的探索与研究，具体研究方向包括大模型、知识图谱、智能感知等。
+
+获辽宁省科技进步奖一等奖。主持国家重点研发计划子课题、国家自然科学基金联合基金重点项目课题、中国博士后科学基金、辽宁省自然科学基金等近10项国家或省部级科研项目，参与多项国家自然科学基金重点项目、国家863项目等。在软件学报、CIKM、IEEE Trans. on Big Data、ACM Trans. on Intell. Syst. Technol.、Knowledge-Based Systems、Information Sciences、Cognitive Computation、DASFAA、ICDCS等国内外高水平期刊与会议发表论文40余篇。授权发明专利与软件著作权10余项。多次担任CIKM、IEEE BigData、IEEE IUCC、KSEM的程序委员会委员、APWEB-WAIM本地主席。担任TKDE、KBS、IEEE TETCI 等10余本期刊审稿人。
+
+指导学生获2023年中国国际“互联网+”大学生创新创业大赛（七星级竞赛）国赛金奖，辽宁省“互联网+”大学生创新创业大赛金奖（产业赛道第一名），并获优秀指导教师称号，2024年昇腾AI创新大赛全国总决赛金奖。
 
 A data-driven personal website
 ======
