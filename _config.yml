@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Xin Bi"
+title                    : "毕鑫"
 title_separator          : "-"
 name                     : &name "Your Name"
 description              : &description "personal description"
@@ -23,10 +23,10 @@ repository               : "andlight13/andlight13.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "Xin Bi"
+  name             : "毕鑫"
   pronouns         : # example: "she/her"  
-  bio              : "Short biography for the left-hand sidebar"
-  employer         : "Northeastern University"
+  bio              : "副教授，博士生导师"
+  employer         : "东北大学"
   email            : "bixin@mail.neu.edu.cn"
 
   # Academic websites
