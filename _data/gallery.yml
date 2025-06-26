@@ -1,15 +1,15 @@
-- src: /images/profile.png
-  title: 团队合影
-  tags: [宣传]
-
-- src: /images/202310-降清玲要鑫-APWEB-WAIM2023.jpg
-  title: 团队合影
-  tags: [参会]
-
 - src: /images/202407-产品-世界人工智能大会展示.jpg
-  title: 团队合影
-  tags: [获奖]
+  title: 202407-产品-世界人工智能大会展示
+  tags: [宣传]
+  description: 课题组研发的TBM岩渣三维形态智能评估系统在2024年世界人工智能大会的曙光展台进行展示，并得到中国新闻网报道
+
+- src: /images/202407-孙彬弘靳清涵-世界人工智能大会.jpg
+  title: 202407-孙彬弘靳清涵-世界人工智能大会
+  tags: [参会]
 
 - src: /images/202310-降清玲要鑫-APWEB-WAIM2023.jpg
-  title: 团队合影
+  title: 202310-降清玲要鑫-APWEB-WAIM2023
   tags: [参会]
+
+
+

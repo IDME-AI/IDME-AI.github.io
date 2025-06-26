@@ -24,14 +24,14 @@
     }
 
     .gallery-item {
-        flex: 0 0 calc(33.333% - 14px); /* 每行3个，考虑间距 */
+        flex: 0 0 calc(33.333% - 14px);
         box-sizing: border-box;
         text-align: center;
     }
 
     .gallery-img-wrapper {
         width: 100%;
-        height: 250px; /* ✅ 设置统一高度 */
+        height: 250px;
         overflow: hidden;
         border-radius: 8px;
         box-shadow: 0 0 6px rgba(0,0,0,0.1);
@@ -40,7 +40,7 @@
     .gallery-img-wrapper img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* ✅ 裁剪居中 */
+        object-fit: cover;
         cursor: pointer;
         transition: transform 0.3s ease;
     }
@@ -64,31 +64,49 @@
         background: rgba(0,0,0,0.8);
         justify-content: center;
         align-items: center;
+        flex-direction: column;
+        padding: 30px 20px;
+        text-align: center;
+        color: white;
     }
 
     #lightbox img {
         max-width: 90%;
-        max-height: 90%;
+        max-height: 70%;
         box-shadow: 0 0 20px #fff;
         border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    #lightbox-desc {
+        max-width: 800px;
+        font-size: 1.1em;
+        line-height: 1.6;
+        background: rgba(0,0,0,0.4);
+        padding: 10px 20px;
+        border-radius: 8px;
     }
 
     @media (max-width: 768px) {
         .gallery-item {
             flex: 0 0 100%;
         }
+        #lightbox img {
+            max-height: 50%;
+        }
     }
 </style>
 
-<!-- 按钮区 -->
+<!-- 标签按钮 -->
 <div class="filter-buttons" id="tag-buttons"></div>
 
-<!-- 图片区 -->
+<!-- 图片展示 -->
 <div class="gallery-grid" id="gallery"></div>
 
-<!-- Lightbox 弹窗 -->
+<!-- Lightbox -->
 <div id="lightbox" onclick="this.style.display='none'">
     <img id="lightbox-img" src="" alt="full image">
+    <div id="lightbox-desc"></div>
 </div>
 
 <script>
@@ -97,6 +115,7 @@
     const gallery = document.getElementById("gallery");
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxDesc = document.getElementById("lightbox-desc");
 
     let currentTag = "全部";
     const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
@@ -126,7 +145,7 @@
                 item.className = "gallery-item";
                 item.innerHTML = `
           <div class="gallery-img-wrapper">
-            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}')">
+            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
           </div>
           <div class="gallery-title">${img.title}</div>
         `;
@@ -134,9 +153,10 @@
             });
     }
 
-    function openLightbox(src) {
+    function openLightbox(src, desc) {
         lightbox.style.display = "flex";
         lightboxImg.src = src;
+        lightboxDesc.innerHTML = desc;
     }
 
     renderButtons();
