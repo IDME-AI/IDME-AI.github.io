@@ -5,30 +5,96 @@ permalink: /news/
 author_profile: true
 ---
 
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
+<!-- 自定义CSS可放入assets/css/custom.css中 -->
+<style>
+  .gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .gallery-item {
+    width: calc(33.333% - 20px);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .tags {
+    margin-top: 10px;
+  }
+  .tag-button {
+    margin: 5px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+  .tag-button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  @media (max-width: 768px) {
+    .gallery-item {
+      width: 100%;
+    }
+  }
+</style>
 
-  <!-- 图片1 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/202407-产品-世界人工智能大会展示.jpg"
-         alt="Image 1"
-         style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-    <p style="margin-top: 8px;">202407-产品-世界人工智能大会展示</p>
-  </div>
+<!-- Tag 过滤按钮 -->
+<div id="tag-buttons" style="margin-bottom: 20px;"></div>
 
-  <!-- 图片2 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/202407-孙彬弘靳清涵-世界人工智能大会.jpg"
-         alt="Image 2"
-         style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-    <p style="margin-top: 8px;">202407-孙彬弘靳清涵-世界人工智能大会</p>
-  </div>
+<!-- 图片展示区 -->
+<div class="gallery-container" id="gallery"></div>
 
-  <!-- 图片3 -->
-  <div style="width: 30%; text-align: center;">
-    <img src="../images/202310-降清玲要鑫-APWEB-WAIM2023.jpg"
-         alt="Image 3"
-         style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
-    <p style="margin-top: 8px;">202310-降清玲要鑫-APWEB-WAIM2023</p>
-  </div>
+<!-- JavaScript 逻辑 -->
+<script>
+  const images = [
+    { src: "/images/profile.jpg", title: "实验室合影", tags: ["团队", "活动"] }
+  ];
 
-</div>
+  const tagButtonsContainer = document.getElementById("tag-buttons");
+  const gallery = document.getElementById("gallery");
+
+  const allTags = Array.from(new Set(images.flatMap(img => img.tags)));
+  let currentTag = "全部";
+
+  function renderButtons() {
+    tagButtonsContainer.innerHTML = "";
+    const tags = ["全部", ...allTags];
+    tags.forEach(tag => {
+      const btn = document.createElement("button");
+      btn.innerText = tag;
+      btn.className = "tag-button" + (tag === currentTag ? " active" : "");
+      btn.onclick = () => {
+        currentTag = tag;
+        renderButtons();
+        renderGallery();
+      };
+      tagButtonsContainer.appendChild(btn);
+    });
+  }
+
+  function renderGallery() {
+    gallery.innerHTML = "";
+    images
+      .filter(img => currentTag === "全部" || img.tags.includes(currentTag))
+      .forEach(img => {
+        const item = document.createElement("div");
+        item.className = "gallery-item";
+        item.innerHTML = `
+          <img src="${img.src}" alt="${img.title}">
+          <p style="padding: 10px 5px; font-weight: bold;">${img.title}</p>
+        `;
+        gallery.appendChild(item);
+      });
+  }
+
+  renderButtons();
+  renderGallery();
+</script>
