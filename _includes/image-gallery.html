@@ -1,121 +1,67 @@
 <style>
-    .filter-buttons {
-        margin-bottom: 20px;
-    }
-    .filter-buttons button {
-        margin: 5px;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 5px;
-        background-color: #ddd;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .filter-buttons button.active {
-        background-color: #007acc;
-        color: white;
-    }
-
-    .gallery-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 20px;
-    }
-
-    .gallery-item {
-        flex: 0 0 calc(33.333% - 14px);
-        box-sizing: border-box;
-        text-align: center;
-    }
-
-    .gallery-img-wrapper {
-        width: 100%;
-        height: 250px;
-        overflow: hidden;
+    .news-card {
+        flex: 0 0 calc(33.333% - 20px);
+        background: #fff;
         border-radius: 8px;
-        box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
 
-    .gallery-img-wrapper img {
+    .news-card img {
         width: 100%;
-        height: 100%;
+        height: 220px;
         object-fit: cover;
         cursor: pointer;
-        transition: transform 0.3s ease;
     }
 
-    .gallery-img-wrapper img:hover {
-        transform: scale(1.05);
-    }
-
-    .gallery-title {
-        padding: 10px;
-        font-weight: bold;
-    }
-
-    /* Lightbox 样式 */
-    #lightbox {
-        position: fixed;
-        z-index: 999;
-        display: none;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
-        justify-content: center;
-        align-items: center;
+    .news-card-body {
+        padding: 15px;
+        display: flex;
         flex-direction: column;
-        padding: 30px 20px;
-        text-align: center;
-        color: white;
+        flex: 1;
     }
 
-    #lightbox img {
-        max-width: 90%;
-        max-height: 70%;
-        box-shadow: 0 0 20px #fff;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
-
-    #lightbox-desc {
-        max-width: 800px;
+    .news-title {
         font-size: 1.1em;
-        line-height: 1.6;
-        background: rgba(0,0,0,0.4);
-        padding: 10px 20px;
-        border-radius: 8px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .news-description {
+        flex: 1;
+        font-size: 0.95em;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .news-share {
+        text-align: right;
+    }
+
+    .news-share a {
+        display: inline-block;
+        margin-left: 8px;
+        text-decoration: none;
+        font-size: 0.9em;
+        color: #007acc;
     }
 
     @media (max-width: 768px) {
-        .gallery-item {
+        .news-card {
             flex: 0 0 100%;
-        }
-        #lightbox img {
-            max-height: 50%;
         }
     }
 </style>
 
-<!-- 标签按钮 -->
 <div class="filter-buttons" id="tag-buttons"></div>
-
-<!-- 图片展示 -->
 <div class="gallery-grid" id="gallery"></div>
-
-<!-- Lightbox -->
-<div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="" alt="full image">
-    <div id="lightbox-desc"></div>
-</div>
 
 <script>
     const galleryImages = {{ include.data | jsonify }};
     const tagButtonsContainer = document.getElementById("tag-buttons");
     const gallery = document.getElementById("gallery");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxDesc = document.getElementById("lightbox-desc");
 
     let currentTag = "全部";
     const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
@@ -141,19 +87,31 @@
         galleryImages
             .filter(img => currentTag === "全部" || img.tags.includes(currentTag))
             .forEach(img => {
-                const item = document.createElement("div");
-                item.className = "gallery-item";
-                item.innerHTML = `
-          <div class="gallery-img-wrapper">
-            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
-          </div>
-          <div class="gallery-title">${img.title}</div>
-        `;
-                gallery.appendChild(item);
+                const card = document.createElement("div");
+                card.className = "news-card";
+                const shareText = encodeURIComponent(img.title);
+                const shareUrl = encodeURIComponent(window.location.href + "#" + img.title);
+                card.innerHTML = `
+                    <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
+                    <div class="news-card-body">
+                        <div class="news-title">${img.title}</div>
+                        <div class="news-description">${img.description || ""}</div>
+                        <div class="news-share">
+                            <a href="https://weibo.com/share?title=${shareText}&url=${shareUrl}" target="_blank">微博</a>
+                            <a href="https://connect.qq.com/widget/shareqq/index.html?url=${shareUrl}&title=${shareText}" target="_blank">QQ</a>
+                            <a href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank">WhatsApp</a>
+                        </div>
+                    </div>
+                `;
+                gallery.appendChild(card);
             });
     }
 
+    // 原图放大可选
     function openLightbox(src, desc) {
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+        const lightboxDesc = document.getElementById("lightbox-desc");
         lightbox.style.display = "flex";
         lightboxImg.src = src;
         lightboxDesc.innerHTML = desc;
