@@ -1,145 +1,60 @@
+<!-- 在<head>或这里引入二维码库 -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
 <style>
-    .filter-buttons {
-        margin-bottom: 20px;
-    }
-    .filter-buttons button {
-        margin: 5px;
-        padding: 6px 14px;
-        border: none;
+    /* 你原来的样式省略，这里只示范新增部分 */
+
+    .share-btn {
+        margin-top: 10px;
+        padding: 4px 10px;
+        background-color: #09bb07;
+        color: white;
         border-radius: 4px;
-        background-color: #ddd;
+        font-size: 0.9em;
         cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .filter-buttons button.active {
-        background-color: #007acc;
-        color: white;
-    }
-
-    .gallery-list {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    .gallery-item {
-        display: flex;
-        gap: 15px;
-        cursor: pointer;
-        padding: 12px;
-        border-bottom: 1px solid #eee;
-        align-items: flex-start;
-    }
-
-    .gallery-item:hover {
-        background-color: #f9f9f9;
-    }
-
-    .thumb-wrapper {
-        flex-shrink: 0;
-        width: 160px;
-        height: 100px;
-        overflow: hidden;
-        border-radius: 6px;
-        box-shadow: 0 0 6px rgba(0,0,0,0.1);
-    }
-
-    .thumb-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .gallery-item:hover .thumb-wrapper img {
-        transform: scale(1.05);
-    }
-
-    .gallery-info {
-        flex-grow: 1;
-    }
-
-    .gallery-title {
-        font-weight: 700;
-        font-size: 1.1em;
-        margin-bottom: 6px;
-        color: #007acc;
-        text-decoration: underline;
-    }
-
-    .gallery-tags {
-        margin-bottom: 8px;
-    }
-    .gallery-tags span {
+        user-select: none;
         display: inline-block;
-        background: #007acc;
-        color: white;
-        padding: 2px 8px;
-        font-size: 0.8em;
-        border-radius: 12px;
-        margin-right: 6px;
     }
 
-    .gallery-desc {
-        color: #555;
-        line-height: 1.4;
-    }
-
-    /* Lightbox */
-    #lightbox {
+    /* 二维码弹窗 */
+    #qrcode-popup {
         position: fixed;
-        z-index: 9999;
+        z-index: 10000;
         display: none;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.85);
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 30px 20px;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.6);
         text-align: center;
-        color: white;
     }
-    #lightbox img {
-        max-width: 90%;
-        max-height: 70%;
-        border-radius: 10px;
-        box-shadow: 0 0 25px #fff;
-        margin-bottom: 20px;
+    #qrcode-popup h3 {
+        margin-bottom: 12px;
+        font-weight: 700;
     }
-    #lightbox-desc {
-        max-width: 850px;
-        font-size: 1.1em;
-        line-height: 1.6;
-        background: rgba(0,0,0,0.4);
-        padding: 15px 25px;
-        border-radius: 10px;
+    #qrcode {
+        margin-bottom: 15px;
     }
-
-    @media (max-width: 768px) {
-        .gallery-item {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .thumb-wrapper {
-            width: 90%;
-            height: auto;
-            max-height: 220px;
-        }
-        .gallery-info {
-            margin-top: 12px;
-        }
+    #qrcode-close {
+        cursor: pointer;
+        color: #007acc;
+        font-weight: 700;
+        user-select: none;
     }
 </style>
 
-<div class="filter-buttons" id="tag-buttons"></div>
+<!-- 现有代码保持不变 -->
 
 <div class="gallery-list" id="gallery"></div>
 
-<div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="" alt="full image" />
-    <div id="lightbox-desc"></div>
+<!-- Lightbox 这里保持不变 -->
+
+<!-- 新增二维码弹窗 -->
+<div id="qrcode-popup">
+    <h3>微信扫码分享</h3>
+    <div id="qrcode"></div>
+    <div id="qrcode-close">关闭</div>
 </div>
 
 <script>
@@ -149,6 +64,9 @@
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const lightboxDesc = document.getElementById("lightbox-desc");
+    const qrcodePopup = document.getElementById("qrcode-popup");
+    const qrcodeContainer = document.getElementById("qrcode");
+    const qrcodeClose = document.getElementById("qrcode-close");
 
     let currentTag = "全部";
     const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
@@ -176,6 +94,10 @@
             .forEach(img => {
                 const item = document.createElement("div");
                 item.className = "gallery-item";
+
+                // 构造分享链接，这里用当前页面URL加图片标题做锚点
+                const pageUrl = window.location.origin + window.location.pathname + "#" + encodeURIComponent(img.title);
+
                 item.onclick = () => openLightbox(img.src, img.description || "");
                 item.innerHTML = `
           <div class="thumb-wrapper">
@@ -185,6 +107,7 @@
             <div class="gallery-title">${img.title}</div>
             <div class="gallery-tags">${img.tags.map(t => `<span>${t}</span>`).join('')}</div>
             <div class="gallery-desc">${img.description || ''}</div>
+            <div class="share-btn" onclick="event.stopPropagation(); showQrcode('${pageUrl}')">分享到微信</div>
           </div>
         `;
                 gallery.appendChild(item);
@@ -196,6 +119,26 @@
         lightboxImg.src = src;
         lightboxDesc.innerHTML = desc;
     }
+
+    // 弹出二维码生成
+    function showQrcode(url) {
+        qrcodeContainer.innerHTML = ""; // 清空旧二维码
+        QRCode.toCanvas(qrcodeContainer, url, { width: 180 }, function (error) {
+            if (error) console.error(error);
+        });
+        qrcodePopup.style.display = "block";
+    }
+
+    qrcodeClose.onclick = () => {
+        qrcodePopup.style.display = "none";
+    };
+
+    // 点击弹窗外关闭
+    window.onclick = e => {
+        if (e.target === qrcodePopup) {
+            qrcodePopup.style.display = "none";
+        }
+    };
 
     renderButtons();
     renderGallery();
