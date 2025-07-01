@@ -1,43 +1,27 @@
 <style>
-    .filter-buttons {
-        margin-bottom: 20px;
-    }
-    .filter-buttons button {
-        margin: 5px;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 5px;
-        background-color: #ddd;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .filter-buttons button.active {
-        background-color: #007acc;
-        color: white;
-    }
-
-    .gallery-grid {
+    .news-list {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 20px;
+        flex-direction: column;
+        gap: 24px;
     }
 
-    .gallery-item {
-        flex: 0 0 calc(33.333% - 14px);
-        box-sizing: border-box;
-        text-align: center;
+    .news-item {
+        display: flex;
+        gap: 16px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 16px;
     }
 
-    .gallery-img-wrapper {
-        width: 100%;
-        height: 250px;
+    .news-img-wrapper {
+        flex-shrink: 0;
+        width: 220px;
+        height: 140px;
         overflow: hidden;
         border-radius: 8px;
         box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
 
-    .gallery-img-wrapper img {
+    .news-img-wrapper img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -45,120 +29,88 @@
         transition: transform 0.3s ease;
     }
 
-    .gallery-img-wrapper img:hover {
+    .news-img-wrapper img:hover {
         transform: scale(1.05);
     }
 
-    .gallery-title {
-        padding: 10px;
+    .news-content {
+        flex-grow: 1;
+    }
+
+    .news-title {
+        font-size: 1.2em;
         font-weight: bold;
+        margin-bottom: 6px;
     }
 
-    /* Lightbox 样式 */
-    #lightbox {
-        position: fixed;
-        z-index: 999;
-        display: none;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8);
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 30px 20px;
-        text-align: center;
-        color: white;
+    .news-date {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 10px;
     }
 
-    #lightbox img {
-        max-width: 90%;
-        max-height: 70%;
-        box-shadow: 0 0 20px #fff;
-        border-radius: 10px;
-        margin-bottom: 15px;
-    }
-
-    #lightbox-desc {
-        max-width: 800px;
-        font-size: 1.1em;
-        line-height: 1.6;
-        background: rgba(0,0,0,0.4);
-        padding: 10px 20px;
-        border-radius: 8px;
-    }
-
-    @media (max-width: 768px) {
-        .gallery-item {
-            flex: 0 0 100%;
-        }
-        #lightbox img {
-            max-height: 50%;
-        }
+    .news-description {
+        font-size: 1em;
+        line-height: 1.4;
+        color: #333;
     }
 </style>
 
-<!-- 标签按钮 -->
-<div class="filter-buttons" id="tag-buttons"></div>
-
-<!-- 图片展示 -->
-<div class="gallery-grid" id="gallery"></div>
-
-<!-- Lightbox -->
-<div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="" alt="full image">
-    <div id="lightbox-desc"></div>
-</div>
+<div class="news-list" id="news-list"></div>
 
 <script>
-    const galleryImages = {{ include.data | jsonify }};
-    const tagButtonsContainer = document.getElementById("tag-buttons");
-    const gallery = document.getElementById("gallery");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxDesc = document.getElementById("lightbox-desc");
+    const newsData = {{ include.data | jsonify }};
 
-    let currentTag = "全部";
-    const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
+    const newsList = document.getElementById("news-list");
 
-    function renderButtons() {
-        const tags = ["全部", ...allTags];
-        tagButtonsContainer.innerHTML = "";
-        tags.forEach(tag => {
-            const button = document.createElement("button");
-            button.innerText = tag;
-            button.className = (tag === currentTag) ? "active" : "";
-            button.onclick = () => {
-                currentTag = tag;
-                renderButtons();
-                renderGallery();
-            };
-            tagButtonsContainer.appendChild(button);
+    function openLightbox(src, desc) {
+        // 简单打开大图弹窗
+        const lightbox = document.createElement("div");
+        lightbox.style.position = "fixed";
+        lightbox.style.top = 0;
+        lightbox.style.left = 0;
+        lightbox.style.width = "100%";
+        lightbox.style.height = "100%";
+        lightbox.style.background = "rgba(0,0,0,0.8)";
+        lightbox.style.display = "flex";
+        lightbox.style.justifyContent = "center";
+        lightbox.style.alignItems = "center";
+        lightbox.style.zIndex = 9999;
+        lightbox.style.cursor = "pointer";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.style.maxWidth = "90%";
+        img.style.maxHeight = "90%";
+        img.style.borderRadius = "10px";
+        img.style.boxShadow = "0 0 20px white";
+
+        lightbox.appendChild(img);
+
+        lightbox.onclick = () => document.body.removeChild(lightbox);
+        document.body.appendChild(lightbox);
+    }
+
+    function renderNews() {
+        newsList.innerHTML = "";
+        newsData.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "news-item";
+            div.innerHTML = `
+        <div class="news-img-wrapper">
+          <img src="${item.src}" alt="${item.title}">
+        </div>
+        <div class="news-content">
+          <div class="news-title">${item.title}</div>
+          <div class="news-date">${item.date || ""}</div>
+          <div class="news-description">${item.description || ""}</div>
+        </div>
+      `;
+            // 点击图片放大
+            div.querySelector("img").onclick = () => openLightbox(item.src, item.description);
+            newsList.appendChild(div);
         });
     }
 
-    function renderGallery() {
-        gallery.innerHTML = "";
-        galleryImages
-            .filter(img => currentTag === "全部" || img.tags.includes(currentTag))
-            .forEach(img => {
-                const item = document.createElement("div");
-                item.className = "gallery-item";
-                item.innerHTML = `
-          <div class="gallery-img-wrapper">
-            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
-          </div>
-          <div class="gallery-title">${img.title}</div>
-        `;
-                gallery.appendChild(item);
-            });
-    }
-
-    function openLightbox(src, desc) {
-        lightbox.style.display = "flex";
-        lightboxImg.src = src;
-        lightboxDesc.innerHTML = desc;
-    }
-
-    renderButtons();
-    renderGallery();
+    renderNews();
 </script>
