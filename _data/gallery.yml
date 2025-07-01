@@ -1,12 +1,3 @@
-
-- title: "AI 大会成功召开"
-  src: "/images/news/ai-event.jpg"
-  tags: ["活动", "AI"]
-  date: "2025-06-15"
-  summary: "2025年度人工智能大会在上海召开，吸引了全球数千名参会者。"
-  description: "大会聚焦大模型、通用人工智能、AI安全等议题，OpenAI、Google、华为等企业均有参与。"
-  link: "/news/ai-conference-2025"
-
 - src: /images/202407-产品-世界人工智能大会展示.jpg
   title: 202407-产品-世界人工智能大会展示
   tags: [宣传]

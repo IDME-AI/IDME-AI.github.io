@@ -2,7 +2,6 @@
     .filter-buttons {
         margin-bottom: 20px;
     }
-
     .filter-buttons button {
         margin: 5px;
         padding: 8px 16px;
@@ -12,7 +11,6 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
-
     .filter-buttons button.active {
         background-color: #007acc;
         color: white;
@@ -20,25 +18,23 @@
 
     .gallery-grid {
         display: flex;
-        flex-direction: column;
-        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
     }
 
     .gallery-item {
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 20px;
+        flex: 0 0 calc(33.333% - 14px);
+        box-sizing: border-box;
+        text-align: center;
     }
 
     .gallery-img-wrapper {
-        width: 250px;
-        height: 160px;
+        width: 100%;
+        height: 250px;
         overflow: hidden;
         border-radius: 8px;
-        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
-        flex-shrink: 0;
+        box-shadow: 0 0 6px rgba(0,0,0,0.1);
     }
 
     .gallery-img-wrapper img {
@@ -53,48 +49,19 @@
         transform: scale(1.05);
     }
 
-    .gallery-content {
-        flex: 1;
-    }
-
     .gallery-title {
-        font-size: 1.3em;
+        padding: 10px;
         font-weight: bold;
-        margin-bottom: 5px;
     }
 
-    .gallery-date {
-        font-size: 0.9em;
-        color: #888;
-        margin-bottom: 10px;
-    }
-
-    .gallery-summary {
-        font-size: 1em;
-        color: #444;
-        margin-bottom: 10px;
-        line-height: 1.5;
-    }
-
-    .read-more {
-        font-size: 0.9em;
-        color: #007acc;
-        text-decoration: none;
-    }
-
-    .read-more:hover {
-        text-decoration: underline;
-    }
-
+    /* Lightbox 样式 */
     #lightbox {
         position: fixed;
         z-index: 999;
         display: none;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8);
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -115,42 +82,35 @@
         max-width: 800px;
         font-size: 1.1em;
         line-height: 1.6;
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(0,0,0,0.4);
         padding: 10px 20px;
         border-radius: 8px;
     }
 
     @media (max-width: 768px) {
         .gallery-item {
-            flex-direction: column;
+            flex: 0 0 100%;
         }
-
-        .gallery-img-wrapper {
-            width: 100%;
-            height: 200px;
+        #lightbox img {
+            max-height: 50%;
         }
     }
 </style>
 
 <!-- 标签按钮 -->
-<div className="filter-buttons" id="tag-buttons"></div>
+<div class="filter-buttons" id="tag-buttons"></div>
 
-<!-- 新闻卡片展示 -->
-<div className="gallery-grid" id="gallery"></div>
+<!-- 图片展示 -->
+<div class="gallery-grid" id="gallery"></div>
 
-<!-- Lightbox 弹出层 -->
-<div id="lightbox" onClick="this.style.display='none'">
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.style.display='none'">
     <img id="lightbox-img" src="" alt="full image">
     <div id="lightbox-desc"></div>
 </div>
 
 <script>
-    const galleryImages = {
-    {
-        include.data | jsonify
-    }
-    }
-    ;
+    const galleryImages = {{ include.data | jsonify }};
     const tagButtonsContainer = document.getElementById("tag-buttons");
     const gallery = document.getElementById("gallery");
     const lightbox = document.getElementById("lightbox");
@@ -158,7 +118,7 @@
     const lightboxDesc = document.getElementById("lightbox-desc");
 
     let currentTag = "全部";
-    const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags || [])));
+    const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
 
     function renderButtons() {
         const tags = ["全部", ...allTags];
@@ -179,21 +139,16 @@
     function renderGallery() {
         gallery.innerHTML = "";
         galleryImages
-            .filter(img => currentTag === "全部" || (img.tags || []).includes(currentTag))
+            .filter(img => currentTag === "全部" || img.tags.includes(currentTag))
             .forEach(img => {
                 const item = document.createElement("div");
                 item.className = "gallery-item";
                 item.innerHTML = `
-                    <div class="gallery-img-wrapper">
-                        <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
-                    </div>
-                    <div class="gallery-content">
-                        <div class="gallery-title">${img.title}</div>
-                        <div class="gallery-date">${img.date || ''}</div>
-                        <div class="gallery-summary">${img.summary || ''}</div>
-                        ${img.link ? `<a class="read-more" href="${img.link}" target="_blank">阅读全文 &raquo;</a>` : ""}
-                    </div>
-                `;
+          <div class="gallery-img-wrapper">
+            <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
+          </div>
+          <div class="gallery-title">${img.title}</div>
+        `;
                 gallery.appendChild(item);
             });
     }
