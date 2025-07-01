@@ -1,70 +1,164 @@
 <style>
-    .news-card {
-        flex: 0 0 calc(33.333% - 20px);
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
+    .filter-buttons {
+        margin-bottom: 20px;
     }
 
-    .news-card img {
+    .filter-buttons button {
+        margin: 5px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ddd;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .filter-buttons button.active {
+        background-color: #007acc;
+        color: white;
+    }
+
+    .gallery-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .gallery-item {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+    }
+
+    .gallery-img-wrapper {
+        width: 250px;
+        height: 160px;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+    }
+
+    .gallery-img-wrapper img {
         width: 100%;
-        height: 220px;
+        height: 100%;
         object-fit: cover;
         cursor: pointer;
+        transition: transform 0.3s ease;
     }
 
-    .news-card-body {
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
+    .gallery-img-wrapper img:hover {
+        transform: scale(1.05);
+    }
+
+    .gallery-content {
         flex: 1;
     }
 
-    .news-title {
-        font-size: 1.1em;
+    .gallery-title {
+        font-size: 1.3em;
         font-weight: bold;
-        margin-bottom: 8px;
+        margin-bottom: 5px;
     }
 
-    .news-description {
-        flex: 1;
-        font-size: 0.95em;
-        color: #555;
+    .gallery-date {
+        font-size: 0.9em;
+        color: #888;
         margin-bottom: 10px;
     }
 
-    .news-share {
-        text-align: right;
+    .gallery-summary {
+        font-size: 1em;
+        color: #444;
+        margin-bottom: 10px;
+        line-height: 1.5;
     }
 
-    .news-share a {
-        display: inline-block;
-        margin-left: 8px;
-        text-decoration: none;
+    .read-more {
         font-size: 0.9em;
         color: #007acc;
+        text-decoration: none;
+    }
+
+    .read-more:hover {
+        text-decoration: underline;
+    }
+
+    #lightbox {
+        position: fixed;
+        z-index: 999;
+        display: none;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 30px 20px;
+        text-align: center;
+        color: white;
+    }
+
+    #lightbox img {
+        max-width: 90%;
+        max-height: 70%;
+        box-shadow: 0 0 20px #fff;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    #lightbox-desc {
+        max-width: 800px;
+        font-size: 1.1em;
+        line-height: 1.6;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 10px 20px;
+        border-radius: 8px;
     }
 
     @media (max-width: 768px) {
-        .news-card {
-            flex: 0 0 100%;
+        .gallery-item {
+            flex-direction: column;
+        }
+
+        .gallery-img-wrapper {
+            width: 100%;
+            height: 200px;
         }
     }
 </style>
 
-<div class="filter-buttons" id="tag-buttons"></div>
-<div class="gallery-grid" id="gallery"></div>
+<!-- 标签按钮 -->
+<div className="filter-buttons" id="tag-buttons"></div>
+
+<!-- 新闻卡片展示 -->
+<div className="gallery-grid" id="gallery"></div>
+
+<!-- Lightbox 弹出层 -->
+<div id="lightbox" onClick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="full image">
+    <div id="lightbox-desc"></div>
+</div>
 
 <script>
-    const galleryImages = {{ include.data | jsonify }};
+    const galleryImages = {
+    {
+        include.data | jsonify
+    }
+    }
+    ;
     const tagButtonsContainer = document.getElementById("tag-buttons");
     const gallery = document.getElementById("gallery");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxDesc = document.getElementById("lightbox-desc");
 
     let currentTag = "全部";
-    const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags)));
+    const allTags = Array.from(new Set(galleryImages.flatMap(img => img.tags || [])));
 
     function renderButtons() {
         const tags = ["全部", ...allTags];
@@ -85,33 +179,26 @@
     function renderGallery() {
         gallery.innerHTML = "";
         galleryImages
-            .filter(img => currentTag === "全部" || img.tags.includes(currentTag))
+            .filter(img => currentTag === "全部" || (img.tags || []).includes(currentTag))
             .forEach(img => {
-                const card = document.createElement("div");
-                card.className = "news-card";
-                const shareText = encodeURIComponent(img.title);
-                const shareUrl = encodeURIComponent(window.location.href + "#" + img.title);
-                card.innerHTML = `
-                    <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
-                    <div class="news-card-body">
-                        <div class="news-title">${img.title}</div>
-                        <div class="news-description">${img.description || ""}</div>
-                        <div class="news-share">
-                            <a href="https://weibo.com/share?title=${shareText}&url=${shareUrl}" target="_blank">微博</a>
-                            <a href="https://connect.qq.com/widget/shareqq/index.html?url=${shareUrl}&title=${shareText}" target="_blank">QQ</a>
-                            <a href="https://api.whatsapp.com/send?text=${shareText}%20${shareUrl}" target="_blank">WhatsApp</a>
-                        </div>
+                const item = document.createElement("div");
+                item.className = "gallery-item";
+                item.innerHTML = `
+                    <div class="gallery-img-wrapper">
+                        <img src="${img.src}" alt="${img.title}" onclick="openLightbox('${img.src}', \`${img.description || ''}\`)">
+                    </div>
+                    <div class="gallery-content">
+                        <div class="gallery-title">${img.title}</div>
+                        <div class="gallery-date">${img.date || ''}</div>
+                        <div class="gallery-summary">${img.summary || ''}</div>
+                        ${img.link ? `<a class="read-more" href="${img.link}" target="_blank">阅读全文 &raquo;</a>` : ""}
                     </div>
                 `;
-                gallery.appendChild(card);
+                gallery.appendChild(item);
             });
     }
 
-    // 原图放大可选
     function openLightbox(src, desc) {
-        const lightbox = document.getElementById("lightbox");
-        const lightboxImg = document.getElementById("lightbox-img");
-        const lightboxDesc = document.getElementById("lightbox-desc");
         lightbox.style.display = "flex";
         lightboxImg.src = src;
         lightboxDesc.innerHTML = desc;
