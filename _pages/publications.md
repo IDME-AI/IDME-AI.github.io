@@ -5,7 +5,6 @@ permalink: /publications/
 author_profile: true
 ---
 
-#  Publications
 
 ### **2025**
 
@@ -59,7 +58,7 @@ author_profile: true
 
 ---
 
-##  Patents
+#  Patents
 
 1. **毕鑫**, 吕智霖, 要鑫, 宋美玲, 孙彬弘, 金颖, 左泰睿, 陈松, 姚志宾. *岩石力学大模型知识交互系统*. 2024SR1622000.
 2. **毕鑫**, 冯夏庭, 张伟, 张超, 姚志宾, 胡磊. *东北大学微震波形到时拾取软件V1.0*. 2020SR0676133.
