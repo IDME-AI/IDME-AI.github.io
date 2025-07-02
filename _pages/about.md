@@ -22,9 +22,9 @@ redirect_from:
 
 <!-- 图片展示和跳转按钮 -->
 <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px;">
-  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
-  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
-  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
+  <img src="/images/202407-产品-世界人工智能大会展示.jpg" style="width: 30%; border-radius: 8px;">
+  <img src="/images/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="width: 30%; border-radius: 8px;">
+  <img src="/images/202310-降清玲要鑫-APWEB-WAIM2023.jpg" style="width: 30%; border-radius: 8px;">
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
