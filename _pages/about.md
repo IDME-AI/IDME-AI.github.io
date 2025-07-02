@@ -20,5 +20,15 @@ redirect_from:
 指导学生获得 2023 年中国国际“互联网+”大学生创新创业大赛（七星级竞赛）国赛金奖、辽宁省“互联网+”大学生创新创业大赛金奖（产业赛道第一名），并获优秀指导教师称号；指导团队获得 2024 年昇腾 AI 创新大赛全国总决赛金奖。
 
 
+<!-- 图片展示和跳转按钮 -->
+<div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 30px;">
+  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
+  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
+  <img src="/images/202310-毕鑫-CHINAROCK2023.jpg" style="width: 30%; border-radius: 8px;">
+</div>
 
-
+<div style="text-align: center; margin-top: 30px;">
+  <a href="/news/" style="display: inline-block; padding: 10px 24px; background-color: #007acc; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
+    查看更多新闻
+  </a>
+</div>
