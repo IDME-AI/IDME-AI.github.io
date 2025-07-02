@@ -20,10 +20,10 @@ redirect_from:
 指导学生获得 2023 年中国国际“互联网+”大学生创新创业大赛（七星级竞赛）国赛金奖、辽宁省“互联网+”大学生创新创业大赛金奖（产业赛道第一名），并获优秀指导教师称号；指导团队获得 2024 年昇腾 AI 创新大赛全国总决赛金奖。
 
 
-<div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-top: 30px;">
-  <img src="/images/202407-产品-世界人工智能大会展示.jpg" style="width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
-  <img src="/images/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
-  <img src="/images/202310-降清玲要鑫-APWEB-WAIM2023.jpg" style="width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 30px;">
+  <img src="/images/202407-产品-世界人工智能大会展示.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+  <img src="/images/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+  <img src="/images/202310-降清玲要鑫-APWEB-WAIM2023.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
