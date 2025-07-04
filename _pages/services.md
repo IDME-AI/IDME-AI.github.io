@@ -5,7 +5,6 @@ permalink: /services/
 author_profile: true
 ---
 
-# Services
 
 1. CSRME人工智能专委常委
 2. iGEO期刊青年编委

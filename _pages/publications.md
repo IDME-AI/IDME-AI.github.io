@@ -5,7 +5,7 @@ permalink: /publications/
 author_profile: true
 ---
 
-# Papers
+## Papers
 
 1. **Xin Bi**, Zhubin Han, Xin Yao, Xiangguo Zhao, Yu-Ping Wang, Ye Yuan. *Bridging Trajectory-Aware Evolutionary Graph Learning and Large Language Models for Enhancing Navigability in Social Internet of Things*. IEEE Internet of Things Journal. 2025. (**SCI Q1, IF=8.2, 中科院1区TOP**🔝)
 2. **Xin Bi**, Qinghan Jin, Meiling Song, Xin Yao, Xiangguo Zhao, Ye Yuan. *Spatiotemporal Learning With Decoupled Causal Attention for Multivariate Time Series*. IEEE Transactions on Big Data. 2025. (**SCI Q1, IF=7.5**)
@@ -24,7 +24,7 @@ author_profile: true
 
 ---
 
-# Patents
+## Patents
 
 1. 毕鑫, 聂虎林, 等. *一种湖仓链一体化高效可信大数据存储与分析系统*. 202411030576.2. 实审.
 2. **毕鑫**, 冯夏庭, 等. *一种岩石力学大模型构建与知识交互方法*. 2024111716381. 受理
