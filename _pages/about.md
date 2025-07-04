@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "IDME-AI | 毕鑫"
+title: "IDME-AI 毕鑫"
 author_profile: true
 redirect_from: 
   - /about/
