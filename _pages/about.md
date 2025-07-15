@@ -20,7 +20,14 @@ redirect_from:
 # IDME-AI Group
 人工智能课题组（IDME-AI Group）依托东北大学校长冯夏庭院士的深采全国重点实验室（IDME），面向国家深地重大战略需求，开展人工智能与大数据在深部工程中的探索与研究，研究方向包括大模型、知识图谱、智能感知、时间序列分析等。
 
-# 小组风采
+# 招生专业
+* 计算机科学与技术（学硕、博士）
+* 计算机技术（专硕、博士）
+* 智能科学与技术（博士）
+* 软件工程（学硕、专硕、博士，课题组名额）
+* 采矿工程（智能采矿方向，交叉学科）
+
+# 风貌展示
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 30px;">
   <img src="/images/202407-产品-世界人工智能大会展示.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
   <img src="/images/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
