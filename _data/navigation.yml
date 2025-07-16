@@ -14,29 +14,14 @@ main:
   - title: "Grants"
     url: /grants/
 
-#  - title: "Talks"
-#    url: /talks/
-
   - title: "Services"
     url: /services/
 
   - title: "Teaching"
-    url: /teaching/    
-    
-#  - title: "Portfolio"
-#    url: /portfolio/
-#
-#  - title: "Blog Posts"
-#    url: /year-archive/
-#
-#  - title: "CV"
-#    url: /cv/
-    
-  # - title: "CV"
-  #   url: /cv-json/
-    
-#  - title: "Guide"
-#    url: /markdown/
+    url: /teaching/
+
+  - title: "Graduates"
+    url: /graduates/
 
   - title: "News"
     url: /news/
