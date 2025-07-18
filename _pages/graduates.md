@@ -85,8 +85,8 @@ author_profile: true
 </div>
 
 <div id="enterprise" class="logo-grid">
-  <div class="logo-card"><img src="/images/logos/enterprise1.png" alt="企业1"></div>
-  <div class="logo-card"><img src="/images/logos/enterprise2.png" alt="企业2"></div>
+  <div class="logo-card"><img src="/images/比亚迪.png" alt="企业1"></div>
+  <div class="logo-card"><img src="/images/华为.png" alt="企业2"></div>
   <div class="logo-card"><img src="/images/logos/enterprise3.png" alt="企业3"></div>
 </div>
 
