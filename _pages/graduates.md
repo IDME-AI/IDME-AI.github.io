@@ -87,7 +87,14 @@ author_profile: true
 <div id="enterprise" class="logo-grid">
   <div class="logo-card"><img src="/images/比亚迪.png" alt="企业1"></div>
   <div class="logo-card"><img src="/images/华为.png" alt="企业2"></div>
-  <div class="logo-card"><img src="/images/logos/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
+  <div class="logo-card"><img src="/images/enterprise3.png" alt="企业3"></div>
 </div>
 
 <div id="university" class="logo-grid" style="display: none;">
