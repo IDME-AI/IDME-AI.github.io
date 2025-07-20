@@ -91,7 +91,7 @@ author_profile: true
   <div class="logo-card"><img src="/images/enterprise/海信logo.png" alt="企业4"></div>
   <div class="logo-card"><img src="/images/enterprise/阿里巴巴.png" alt="企业5"></div>
   <div class="logo-card"><img src="/images/enterprise/国家电网.png" alt="企业6"></div>
-  <div class="logo-card"><img src="/images/enterprise/蚂蚁集团备份.png’" alt="企业7"></div>
+  <div class="logo-card"><img src="/images/enterprise/蚂蚁集团备份.png" alt="企业7"></div>
   <div class="logo-card"><img src="/images/enterprise/百度.png" alt="企业8"></div>
   <div class="logo-card"><img src="/images/enterprise/东软.png" alt="企业9"></div>
   <div class="logo-card"><img src="/images/enterprise/小米.png" alt="企业10"></div>
@@ -108,9 +108,9 @@ author_profile: true
   <div class="logo-card"><img src="/images/university/大连理工大学.png" alt="高校1"></div>
   <div class="logo-card"><img src="/images/university/电子科技大学.png" alt="高校2"></div>
   <div class="logo-card"><img src="/images/university/东北大学.png" alt="高校3"></div>
-  <div class="logo-card"><img src="/images/university/东京大学.png" alt="高校4"></div>
-  <div class="logo-card"><img src="/images/university/卡内基梅隆大学.png" alt="高校5"></div>
-  <div class="logo-card"><img src="/images/university/康奈尔大学.png" alt="高校6"></div>
+  <div class="logo-card"><img src="/images/university/东京大学.jpg" alt="高校4"></div>
+  <div class="logo-card"><img src="/images/university/卡内基梅隆大学.jpg" alt="高校5"></div>
+  <div class="logo-card"><img src="/images/university/康奈尔大学.jpg" alt="高校6"></div>
   <div class="logo-card"><img src="/images/university/清华大学.png" alt="高校7"></div>
   <div class="logo-card"><img src="/images/university/深圳大学.png" alt="高校8"></div>
   <div class="logo-card"><img src="/images/university/武汉大学.png" alt="高校9"></div>
