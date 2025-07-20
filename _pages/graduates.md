@@ -91,7 +91,7 @@ author_profile: true
   <div class="logo-card"><img src="/images/enterprise/海信logo.png" alt="企业4"></div>
   <div class="logo-card"><img src="/images/enterprise/阿里巴巴.png" alt="企业5"></div>
   <div class="logo-card"><img src="/images/enterprise/国家电网.png" alt="企业6"></div>
-  <div class="logo-card"><img src="/images/enterprise/蚂蚁集团备份.png‘’" alt="企业7"></div>
+  <div class="logo-card"><img src="/images/enterprise/蚂蚁集团备份.png’" alt="企业7"></div>
   <div class="logo-card"><img src="/images/enterprise/百度.png" alt="企业8"></div>
   <div class="logo-card"><img src="/images/enterprise/东软.png" alt="企业9"></div>
   <div class="logo-card"><img src="/images/enterprise/小米.png" alt="企业10"></div>
