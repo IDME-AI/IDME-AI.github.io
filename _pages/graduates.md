@@ -231,7 +231,7 @@ author_profile: true
     </div>
     <div class="logo-wrapper">
       <div class="logo-card"><img src="/images/university/东北大学.png" alt="高校9"></div>
-      <div class="logo-caption">张世宁、常文飞、于诏丞、谢结、要鑫</div>
+      <div class="logo-caption">张世宁、常文飞等</div>
       <div class="logo-caption">东北大学</div>
     </div>
     <div class="logo-wrapper">
