@@ -172,7 +172,7 @@ author_profile: true
       <div class="logo-caption">渤海银行</div>
     </div>
     <div class="logo-wrapper">
-      <div class="logo-card"><img src="/images/enterprise/猿辅导.png" alt="企业15">></div>
+      <div class="logo-card"><img src="/images/enterprise/猿辅导.png" alt="企业15"></div>
       <div class="logo-caption">黄雪纯</div>
       <div class="logo-caption">猿辅导</div>
     </div>
