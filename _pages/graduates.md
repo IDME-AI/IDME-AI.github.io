@@ -125,7 +125,11 @@ author_profile: true
 </div>
 
 <div id="university" class="logo-grid" style="display: none;">
-  <div class="logo-card"><img src="/images/university/大连理工大学.png" alt="高校1"></div>
+    <div class="logo-wrapper">
+      <div class="logo-card"><img src="/images/university/大连理工大学.png" alt="高校1"></div>
+      <div class="logo-caption">马兆楠</div>
+      <div class="logo-caption">大连理工大学</div>
+    </div>
   <div class="logo-card"><img src="/images/university/电子科技大学.png" alt="高校2"></div>
   <div class="logo-card"><img src="/images/university/东北大学.png" alt="高校3"></div>
   <div class="logo-card"><img src="/images/university/东京大学.jpg" alt="高校4"></div>
