@@ -103,7 +103,8 @@ author_profile: true
 <div id="enterprise" class="logo-grid">
     <div class="logo-wrapper">
       <div class="logo-card"><img src="/images/enterprise/比亚迪.png" alt="企业1"></div>
-      <div class="logo-caption">阿里巴巴：全球领先的数字经济平台</div>
+      <div class="logo-caption">刘祥、何睿</div>
+      <div class="logo-caption">比亚迪</div>
     </div>
   <div class="logo-card"><img src="/images/enterprise/华为.png" alt="企业2"></div>
   <div class="logo-card"><img src="/images/enterprise/中国电信.png" alt="企业3"></div>
