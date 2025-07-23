@@ -166,7 +166,7 @@ author_profile: true
       <div class="logo-caption logo-org">美的</div>
     </div>
     <div class="logo-wrapper">
-      <div class="logo-card"><img src="/images/enterprise/长安汽车v标&logo-copy.png" alt="企业13"></div>
+      <div class="logo-card"><img src="/images/enterprise/长安汽车.png" alt="企业13"></div>
       <div class="logo-caption">张国梁</div>
       <div class="logo-caption logo-org">长安汽车</div>
     </div>
@@ -204,7 +204,7 @@ author_profile: true
 
 <div id="university" class="logo-grid" style="display: none;">
     <div class="logo-wrapper">
-      <div class="logo-card"><img src="/images/university/卡内基梅隆大学.jpg" alt="高校1"></div>
+      <div class="logo-card"><img src="/images/university/卡内基梅隆大学.png" alt="高校1"></div>
       <div class="logo-caption">姜馨怡</div>
       <div class="logo-caption logo-org">卡内基梅隆大学</div>
     </div>
@@ -214,7 +214,7 @@ author_profile: true
       <div class="logo-caption logo-org">康奈尔大学</div>
     </div>
     <div class="logo-wrapper">
-      <div class="logo-card"><img src="/images/university/东京大学.jpg" alt="高校3"></div>
+      <div class="logo-card"><img src="/images/university/东京大学.png" alt="高校3"></div>
       <div class="logo-caption">李东航</div>
       <div class="logo-caption logo-org">东京大学</div>
     </div>
@@ -232,6 +232,7 @@ author_profile: true
       <div class="logo-card"><img src="/images/university/哈尔滨工业大学.png" alt="高校6"></div>
       <div class="logo-caption">王晗</div>
       <div class="logo-caption logo-org">哈尔滨工业大学</div>
+<div class="logo-caption logo-org">中关村国家实验室</div>
     </div>
     <div class="logo-wrapper">
       <div class="logo-card"><img src="/images/university/武汉大学.png" alt="高校7"></div>
