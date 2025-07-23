@@ -29,9 +29,9 @@ redirect_from:
 
 # 风貌展示
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 30px;">
-  <img src="/images/news/202407-世界人工智能大会展示.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+  <img src="/images/news/202412-孙彬弘-昇腾AI创新大赛全国总决赛金奖.jpg" onclick="openLightbox(this.src, '描述文字')" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
   <img src="/images/news/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
-  <img src="/images/news/202310-降清玲要鑫-APWEB-WAIM2023.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+  <img src="/images/news/202312-毕鑫-中国国际大学生创新大赛国赛金奖.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
@@ -39,3 +39,19 @@ redirect_from:
     查看更多新闻
   </a>
 </div>
+
+<div id="lightbox" onclick="this.style.display='none'">
+  <img id="lightbox-img" src="" alt="full image" />
+  <div id="lightbox-desc"></div>
+</div>
+
+<script>
+  function openLightbox(src, desc) {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxDesc = document.getElementById("lightbox-desc");
+    lightbox.style.display = "flex";
+    lightboxImg.src = src;
+    lightboxDesc.innerHTML = desc;
+  }
+</script>
