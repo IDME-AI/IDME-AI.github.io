@@ -28,7 +28,7 @@ redirect_from:
 * 采矿工程（智能采矿方向，交叉学科）
 
 <style>
-#lightbox {
+  #lightbox {
     position: fixed;
     z-index: 9999;
     display: none;
@@ -43,14 +43,14 @@ redirect_from:
     color: white;
     display: none;
 }
-#lightbox img {
+  #lightbox img {
     max-width: 90%;
     max-height: 70%;
     border-radius: 10px;
     box-shadow: 0 0 25px #fff;
     margin-bottom: 20px;
 }
-#lightbox-desc {
+  #lightbox-desc {
     max-width: 850px;
     font-size: 1.1em;
     line-height: 1.6;
@@ -58,6 +58,14 @@ redirect_from:
     padding: 15px 25px;
     border-radius: 10px;
 }
+  .hover-zoom {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-zoom:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  }
 </style>
 <script>
   function openLightbox(src, desc = '') {
@@ -75,14 +83,17 @@ redirect_from:
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 30px;">
   <img src="/images/news/202412-孙彬弘-昇腾AI创新大赛全国总决赛金奖.jpg" 
+       class="hover-zoom"
        style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;" 
-       onclick="openLightbox(this.src, '昇腾AI创新大赛全国总决赛金奖')">
+       onclick="openLightbox(this.src, '2024年12月19日，毕鑫指导学生孙彬弘等人获昇腾AI创新大赛全国总决赛金奖')">
   <img src="/images/news/202407-世界人工智能大会展示.jpg"
+       class="hover-zoom"
        style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;"
-       onclick="openLightbox(this.src, '世界人工智能大会展示')">
+       onclick="openLightbox(this.src, '课题组研发的TBM岩渣三维形态智能评估系统在2024年世界人工智能大会的曙光展台进行展示，并得到中国新闻网报道')">
   <img src="/images/news/202312-毕鑫-中国国际大学生创新大赛国赛金奖.jpg"
+       class="hover-zoom"
        style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;"
-       onclick="openLightbox(this.src, '中国国际大学生创新大赛国赛金奖')">
+       onclick="openLightbox(this.src, '2023年12月6日，毕鑫指导张伟博士等人获中国国际大学生创新大赛（原互联网+竞赛，七星级顶级竞赛）国赛金奖')">
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
