@@ -27,11 +27,62 @@ redirect_from:
 * 软件工程（学硕、专硕、博士，课题组名额）
 * 采矿工程（智能采矿方向，交叉学科）
 
+<style>
+#lightbox {
+    position: fixed;
+    z-index: 9999;
+    display: none;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 30px 20px;
+    text-align: center;
+    color: white;
+    display: none;
+}
+#lightbox img {
+    max-width: 90%;
+    max-height: 70%;
+    border-radius: 10px;
+    box-shadow: 0 0 25px #fff;
+    margin-bottom: 20px;
+}
+#lightbox-desc {
+    max-width: 850px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    background: rgba(0,0,0,0.4);
+    padding: 15px 25px;
+    border-radius: 10px;
+}
+</style>
+<script>
+  function openLightbox(src, desc = '') {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const lightboxDesc = document.getElementById("lightbox-desc");
+
+    lightbox.style.display = "flex";
+    lightboxImg.src = src;
+    lightboxDesc.innerHTML = desc;
+  }
+</script>
+
 # 风貌展示
+
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; margin-top: 30px;">
-  <img src="/images/news/202412-孙彬弘-昇腾AI创新大赛全国总决赛金奖.jpg" onclick="openLightbox(this.src, '描述文字')" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
-  <img src="/images/news/202407-孙彬弘靳清涵-世界人工智能大会.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
-  <img src="/images/news/202312-毕鑫-中国国际大学生创新大赛国赛金奖.jpg" style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px;">
+  <img src="/images/news/202412-孙彬弘-昇腾AI创新大赛全国总决赛金奖.jpg" 
+       style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;" 
+       onclick="openLightbox(this.src, '昇腾AI创新大赛全国总决赛金奖')">
+  <img src="/images/news/202407-世界人工智能大会展示.jpg"
+       style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;"
+       onclick="openLightbox(this.src, '世界人工智能大会展示')">
+  <img src="/images/news/202312-毕鑫-中国国际大学生创新大赛国赛金奖.jpg"
+       style="flex: 1 1 30%; max-width: 32%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer;"
+       onclick="openLightbox(this.src, '中国国际大学生创新大赛国赛金奖')">
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
@@ -45,13 +96,4 @@ redirect_from:
   <div id="lightbox-desc"></div>
 </div>
 
-<script>
-  function openLightbox(src, desc) {
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const lightboxDesc = document.getElementById("lightbox-desc");
-    lightbox.style.display = "flex";
-    lightboxImg.src = src;
-    lightboxDesc.innerHTML = desc;
-  }
-</script>
+
