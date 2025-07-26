@@ -232,8 +232,8 @@
                   <div class="gallery-title">${img.title}</div>
                   <div class="gallery-tags">${img.tags.map(t => `<span>${t}</span>`).join('')}</div>
                   <div class="gallery-desc">${img.description || ''}</div>
-                  <button style="margin-top: 8px;" onclick="event.stopPropagation(); showQRCode('${encodeURIComponent(img.title)}')">微信分享</button>
-                </div>
+                  <button style="margin-top: 8px;" onclick="event.stopPropagation(); showQRCode('${img.src}')">微信分享</button>
+                  </div>
               `;
                 gallery.appendChild(item);
             });
@@ -245,17 +245,18 @@
         lightboxDesc.innerHTML = desc;
     }
 
-    function showQRCode(title) {
-        const shareUrl = `${location.origin}${location.pathname}#${title}`;
+    function showQRCode(imgSrc) {
+        const shareUrl = `${location.origin}${imgSrc}`;
         const qrcodeContainer = document.getElementById("qrcode");
         qrcodeContainer.innerHTML = "";
         new QRCode(qrcodeContainer, {
-            text: decodeURIComponent(shareUrl),
+            text: shareUrl,
             width: 200,
             height: 200
         });
         document.getElementById("qrcode-modal").style.display = "flex";
     }
+
 
     renderButtons();
     renderGallery();
