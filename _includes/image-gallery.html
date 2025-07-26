@@ -1,193 +1,173 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <title>图片库</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .filter-buttons {
-            margin-bottom: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
+<style>
+    .filter-buttons {
+        margin-bottom: 20px;
+    }
+    .filter-buttons {
+        margin-bottom: 25px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+    }
 
-        .filter-buttons button {
-            padding: 8px 22px;
-            border: none;
-            border-radius: 9999px;
-            background: #e0e7ff;
-            color: #333;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: inset 0 0 0 0 transparent;
-            transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, transform 0.15s ease;
-            user-select: none;
-        }
+    .filter-buttons button {
+        padding: 8px 22px;
+        border: none;
+        border-radius: 9999px; /* 超圆角pill形 */
+        background: #e0e7ff;
+        color: #333;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: inset 0 0 0 0 transparent;
+        transition: background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, transform 0.15s ease;
+        user-select: none;
+    }
 
-        .filter-buttons button:hover {
-            background-color: #c7d2fe;
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.12);
-            transform: translateY(-2px);
-        }
+    .filter-buttons button:hover {
+        background-color: #c7d2fe;
+        box-shadow: inset 0 0 8px rgba(0,0,0,0.12);
+        transform: translateY(-2px);
+    }
 
-        .filter-buttons button.active {
-            background-color: #4f46e5;
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.6);
-            transform: translateY(-2px);
-        }
+    .filter-buttons button.active {
+        background-color: #4f46e5; /* 蓝紫色 */
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.6);
+        transform: translateY(-2px);
+    }
 
-        .filter-buttons button:focus-visible {
-            outline: 2px solid #4f46e5;
-            outline-offset: 3px;
-        }
+    .filter-buttons button:focus-visible {
+        outline: 2px solid #4f46e5;
+        outline-offset: 3px;
+    }
 
-        .gallery-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
 
+    .gallery-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .gallery-item {
+        display: flex;
+        gap: 15px;
+        cursor: pointer;
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        align-items: flex-start;
+    }
+
+    .gallery-item:hover {
+        background-color: #f9f9f9;
+    }
+
+    .thumb-wrapper {
+        flex-shrink: 0;
+        width: 160px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 6px;
+        box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+
+    .thumb-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .thumb-wrapper img {
+        transform: scale(1.05);
+    }
+
+    .gallery-info {
+        flex-grow: 1;
+    }
+
+    .gallery-title {
+        font-weight: 700;
+        font-size: 1.1em;
+        margin-bottom: 6px;
+        color: #007acc;
+        text-decoration: underline;
+    }
+
+    .gallery-tags {
+        margin-bottom: 8px;
+    }
+    .gallery-tags span {
+        display: inline-block;
+        background: #007acc;
+        color: white;
+        padding: 2px 8px;
+        font-size: 0.8em;
+        border-radius: 12px;
+        margin-right: 6px;
+    }
+
+    .gallery-desc {
+        color: #555;
+        line-height: 1.4;
+    }
+
+    /* Lightbox */
+    #lightbox {
+        position: fixed;
+        z-index: 9999;
+        display: none;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85);
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 30px 20px;
+        text-align: center;
+        color: white;
+    }
+    #lightbox img {
+        max-width: 90%;
+        max-height: 70%;
+        border-radius: 10px;
+        box-shadow: 0 0 25px #fff;
+        margin-bottom: 20px;
+    }
+    #lightbox-desc {
+        max-width: 850px;
+        font-size: 1.1em;
+        line-height: 1.6;
+        background: rgba(0,0,0,0.4);
+        padding: 15px 25px;
+        border-radius: 10px;
+    }
+
+    @media (max-width: 768px) {
         .gallery-item {
-            display: flex;
-            gap: 15px;
-            cursor: pointer;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            align-items: flex-start;
-        }
-
-        .gallery-item:hover {
-            background-color: #f9f9f9;
-        }
-
-        .thumb-wrapper {
-            flex-shrink: 0;
-            width: 160px;
-            height: 100px;
-            overflow: hidden;
-            border-radius: 6px;
-            box-shadow: 0 0 6px rgba(0,0,0,0.1);
-        }
-
-        .thumb-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover .thumb-wrapper img {
-            transform: scale(1.05);
-        }
-
-        .gallery-info {
-            flex-grow: 1;
-        }
-
-        .gallery-title {
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-bottom: 6px;
-            color: #007acc;
-            text-decoration: underline;
-        }
-
-        .gallery-tags {
-            margin-bottom: 8px;
-        }
-
-        .gallery-tags span {
-            display: inline-block;
-            background: #007acc;
-            color: white;
-            padding: 2px 8px;
-            font-size: 0.8em;
-            border-radius: 12px;
-            margin-right: 6px;
-        }
-
-        .gallery-desc {
-            color: #555;
-            line-height: 1.4;
-        }
-
-        #lightbox {
-            position: fixed;
-            z-index: 9999;
-            display: none;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            padding: 30px 20px;
+            align-items: center;
             text-align: center;
-            color: white;
         }
-
-        #lightbox img {
-            max-width: 90%;
-            max-height: 70%;
-            border-radius: 10px;
-            box-shadow: 0 0 25px #fff;
-            margin-bottom: 20px;
+        .thumb-wrapper {
+            width: 90%;
+            height: auto;
+            max-height: 220px;
         }
-
-        #lightbox-desc {
-            max-width: 850px;
-            font-size: 1.1em;
-            line-height: 1.6;
-            background: rgba(0,0,0,0.4);
-            padding: 15px 25px;
-            border-radius: 10px;
+        .gallery-info {
+            margin-top: 12px;
         }
-
-        @media (max-width: 768px) {
-            .gallery-item {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-            .thumb-wrapper {
-                width: 90%;
-                height: auto;
-                max-height: 220px;
-            }
-            .gallery-info {
-                margin-top: 12px;
-            }
-        }
-    </style>
-</head>
-<body>
+    }
+</style>
 
 <div class="filter-buttons" id="tag-buttons"></div>
+
 <div class="gallery-list" id="gallery"></div>
 
-<!-- 大图弹窗 -->
 <div id="lightbox" onclick="this.style.display='none'">
     <img id="lightbox-img" src="" alt="full image" />
     <div id="lightbox-desc"></div>
 </div>
-
-<!-- 微信二维码弹窗 -->
-<div id="qrcode-modal" style="display:none; position:fixed; top:0; left:0;
-     width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:99999;
-     justify-content:center; align-items:center;">
-    <div style="background:#fff; padding:20px; border-radius:10px; text-align:center;">
-        <div id="qrcode"></div>
-        <p style="margin-top: 10px;">使用微信扫码分享该图片</p>
-        <button onclick="document.getElementById('qrcode-modal').style.display='none'">关闭</button>
-    </div>
-</div>
-
-<!-- 引入二维码库 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
     const galleryImages = {{ include.data | jsonify }};
@@ -225,16 +205,15 @@
                 item.className = "gallery-item";
                 item.onclick = () => openLightbox(img.src, img.description || "");
                 item.innerHTML = `
-                <div class="thumb-wrapper">
-                  <img src="${img.src}" alt="${img.title}" />
-                </div>
-                <div class="gallery-info">
-                  <div class="gallery-title">${img.title}</div>
-                  <div class="gallery-tags">${img.tags.map(t => `<span>${t}</span>`).join('')}</div>
-                  <div class="gallery-desc">${img.description || ''}</div>
-                  <button style="margin-top: 8px;" onclick="event.stopPropagation(); showQRCode('${img.src}')">微信分享</button>
-                  </div>
-              `;
+          <div class="thumb-wrapper">
+            <img src="${img.src}" alt="${img.title}" />
+          </div>
+          <div class="gallery-info">
+            <div class="gallery-title">${img.title}</div>
+            <div class="gallery-tags">${img.tags.map(t => `<span>${t}</span>`).join('')}</div>
+            <div class="gallery-desc">${img.description || ''}</div>
+          </div>
+        `;
                 gallery.appendChild(item);
             });
     }
@@ -245,27 +224,6 @@
         lightboxDesc.innerHTML = desc;
     }
 
-    function showQRCode(imgSrc) {
-        // 从 imgSrc 提取文件名
-        const filename = imgSrc.substring(imgSrc.lastIndexOf('/') + 1);
-        // 拼接你想要的地址
-        const shareUrl = `https://idme-ai.github.io/images/news/${filename}`;
-
-        const qrcodeContainer = document.getElementById("qrcode");
-        qrcodeContainer.innerHTML = "";
-        new QRCode(qrcodeContainer, {
-            text: shareUrl,
-            width: 200,
-            height: 200
-        });
-        document.getElementById("qrcode-modal").style.display = "flex";
-    }
-
-
-
     renderButtons();
     renderGallery();
 </script>
-
-</body>
-</html>
