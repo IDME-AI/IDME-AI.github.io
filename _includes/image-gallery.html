@@ -246,7 +246,11 @@
     }
 
     function showQRCode(imgSrc) {
-        const shareUrl = `${location.origin}${imgSrc}`;
+        // 从 imgSrc 提取文件名
+        const filename = imgSrc.substring(imgSrc.lastIndexOf('/') + 1);
+        // 拼接你想要的地址
+        const shareUrl = `https://idme-ai.github.io/images/news/${filename}`;
+
         const qrcodeContainer = document.getElementById("qrcode");
         qrcodeContainer.innerHTML = "";
         new QRCode(qrcodeContainer, {
@@ -256,6 +260,7 @@
         });
         document.getElementById("qrcode-modal").style.display = "flex";
     }
+
 
 
     renderButtons();
