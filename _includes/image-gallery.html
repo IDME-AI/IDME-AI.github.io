@@ -208,7 +208,7 @@
                     url.searchParams.set('src', img.src);
                     url.searchParams.set('title', img.title);
                     url.searchParams.set('desc', img.description || '');
-                    window.open(url.toString(), '_blank');
+                    window.location.href = url.toString();
                 };
                 item.innerHTML = `
           <div class="thumb-wrapper">

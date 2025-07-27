@@ -5,6 +5,21 @@ permalink: /viewer/
 author_profile: true
 ---
 
+<button onclick="history.back()" style="
+position: fixed;
+bottom: 24px;
+right: 24px;
+background-color: #4f46e5;
+color: white;
+border: none;
+padding: 12px 20px;
+font-size: 16px;
+border-radius: 8px;
+cursor: pointer;
+z-index: 1000;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+">← 返回</button>
+
 <div id="viewer"></div>
 
 <script>
