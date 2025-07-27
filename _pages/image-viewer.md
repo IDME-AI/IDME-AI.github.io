@@ -1,6 +1,5 @@
 ---
 layout: archive
-title: "viewer"
 permalink: /viewer/
 author_profile: true
 ---
