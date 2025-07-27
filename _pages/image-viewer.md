@@ -5,20 +5,30 @@ permalink: /viewer/
 author_profile: true
 ---
 
-<button onclick="history.back()" style="
-position: fixed;
-bottom: 24px;
-right: 24px;
-background-color: #4f46e5;
-color: white;
-border: none;
-padding: 12px 20px;
-font-size: 16px;
-border-radius: 8px;
-cursor: pointer;
-z-index: 1000;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-">← 返回</button>
+<style>
+#back-button {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#back-button:hover {
+    background-color: #4338ca; /* 更深蓝紫色 */
+    transform: scale(1.08);
+}
+</style>
+
+<button id="back-button" onclick="history.back()">← 返回</button>
 
 <div id="viewer"></div>
 
