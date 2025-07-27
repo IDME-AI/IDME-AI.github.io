@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>图片查看</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #111;
+            color: #fff;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        img {
+            max-width: 90vw;
+            max-height: 70vh;
+            border-radius: 12px;
+            box-shadow: 0 0 25px #fff;
+        }
+        .desc {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin-inline: auto;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            color: #4fbcff;
+        }
+    </style>
+</head>
+<body>
+<h1 id="image-title"></h1>
+<img id="image" src="" alt="图片" />
+<div class="desc" id="description"></div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get('src');
+    const desc = params.get('desc');
+    const title = params.get('title');
+
+    document.getElementById('image').src = src;
+    document.getElementById('image-title').innerText = title || '';
+    document.getElementById('description').innerText = desc || '';
+</script>
+</body>
+</html>

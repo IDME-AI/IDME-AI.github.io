@@ -203,7 +203,13 @@
             .forEach(img => {
                 const item = document.createElement("div");
                 item.className = "gallery-item";
-                item.onclick = () => openLightbox(img.src, img.description || "");
+                item.onclick = () => {
+                    const url = new URL('image-viewer.html', window.location.href);
+                    url.searchParams.set('src', img.src);
+                    url.searchParams.set('title', img.title);
+                    url.searchParams.set('desc', img.description || '');
+                    window.open(url.toString(), '_blank');
+                };
                 item.innerHTML = `
           <div class="thumb-wrapper">
             <img src="${img.src}" alt="${img.title}" />
