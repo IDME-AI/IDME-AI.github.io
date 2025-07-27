@@ -1,5 +1,6 @@
 ---
 layout: archive
+seo_title: "小组风采"
 permalink: /viewer/
 author_profile: true
 ---
