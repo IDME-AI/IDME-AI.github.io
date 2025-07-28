@@ -22,21 +22,36 @@ author_profile: true
 }
 
 #back-button:hover {
-    background-color: #4338ca; /* 更深蓝紫色 */
+    background-color: #4338ca;
+    transform: scale(1.08);
+}
+
+#share-button {
+    position: fixed;
+    bottom: 24px;
+    right: 120px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#share-button:hover {
+    background-color: #059669;
     transform: scale(1.08);
 }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-
 <button id="back-button" onclick="history.back()">返回</button>
+<button id="share-button">分享</button>
 
 <div id="viewer"></div>
-
-<div id="qrcode" style="margin-top: 40px; text-align:center;">
-    <p style="font-size: 1.1em;">扫码分享到微信</p>
-    <canvas id="qrcode-canvas"></canvas>
-</div>
 
 <script>
     const params = new URLSearchParams(window.location.search);
@@ -50,14 +65,30 @@ author_profile: true
         <p style="margin-top:20px;font-size:1.1em;">${desc}</p>
     `;
 
-    // 添加二维码生成
-    const fullUrl = window.location.href;
-    const qr = new QRious({
-        element: document.getElementById('qrcode-canvas'),
-        value: fullUrl,
-        size: 180,
-        level: 'H',
-        background: 'white',
-        foreground: '#4f46e5'
+    document.getElementById('share-button').addEventListener('click', async () => {
+        const url = window.location.href;
+        const shareTitle = document.querySelector('#viewer h2')?.innerText || '查看图片';
+        const shareText = document.querySelector('#viewer p')?.innerText || '来自我的图片分享';
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: shareTitle,
+                    text: shareText,
+                    url: url,
+                });
+                console.log('分享成功');
+            } catch (err) {
+                console.error('分享失败:', err);
+            }
+        } else {
+            // 不支持 Web Share API，复制链接
+            try {
+                await navigator.clipboard.writeText(url);
+                alert('已复制链接，可粘贴发送给好友～');
+            } catch (err) {
+                prompt('复制失败，请手动复制：', url);
+            }
+        }
     });
 </script>
