@@ -45,8 +45,8 @@ author_profile: true
 </style>
 
 <div id="button-container">
-  <button id="back-button" onclick="history.back()">返回</button>
   <button id="share-button">分享</button>
+  <button id="back-button" onclick="history.back()">返回</button>
 </div>
 
 <div id="viewer"></div>
