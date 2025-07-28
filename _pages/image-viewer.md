@@ -53,22 +53,23 @@ author_profile: true
 
 <div id="viewer"></div>
 
+{% raw %}
 <script>
+window.onload = function () {
     const params = new URLSearchParams(window.location.search);
     const src = params.get('src');
     const title = params.get('title');
     const desc = params.get('desc');
 
-    document.getElementById('viewer').innerHTML = `
-        <h2 style="color:#007acc">${title}</h2>
-        <img src="${src}" style="max-width:90%;border-radius:12px;" />
-        <p style="margin-top:20px;font-size:1.1em;">${desc}</p>
-    `;
+    const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
+                 '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
+                 '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
+    document.getElementById('viewer').innerHTML = html;
 
     document.getElementById('share-button').addEventListener('click', async () => {
         const url = window.location.href;
-        const shareTitle = document.querySelector('#viewer h2')?.innerText || '查看图片';
-        const shareText = document.querySelector('#viewer p')?.innerText || '来自我的图片分享';
+        const shareTitle = title || '查看图片';
+        const shareText = desc || '来自我的图片分享';
 
         if (navigator.share) {
             try {
@@ -77,12 +78,11 @@ author_profile: true
                     text: shareText,
                     url: url,
                 });
-                console.log('分享成功');
+                console.log('已分享');
             } catch (err) {
                 console.error('分享失败:', err);
             }
         } else {
-            // 不支持 Web Share API，复制链接
             try {
                 await navigator.clipboard.writeText(url);
                 alert('已复制链接，可粘贴发送给好友～');
@@ -91,4 +91,6 @@ author_profile: true
             }
         }
     });
+};
 </script>
+{% endraw %}
