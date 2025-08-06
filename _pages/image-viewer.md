@@ -69,6 +69,7 @@ author_profile: true
      data-url="">
 </div>
 
+<!-- 注意：Jekyll 中用 raw 标签包裹 JS -->
 {% raw %}
 <script>
 window.onload = function () {
@@ -77,13 +78,13 @@ window.onload = function () {
     const title = params.get('title');
     const desc = params.get('desc');
 
-    // 生成内容 HTML
+    // 渲染图片与文字
     const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
                  '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
                  '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
     document.getElementById('viewer').innerHTML = html;
 
-    // 动态填充 share.js 按钮内容
+    // 填充 share.js 属性
     const shareContainer = document.querySelector('.share-component');
     if (shareContainer) {
         shareContainer.setAttribute('data-title', title || '查看图片');
@@ -91,13 +92,13 @@ window.onload = function () {
         shareContainer.setAttribute('data-url', window.location.href);
         shareContainer.setAttribute('data-image', src || '');
 
-        // 初始化 share.js（必须调用）
-        if (window.shareInit) {
-            shareInit(); // 重新初始化组件
+        // 初始化 share.js
+        if (typeof window.shareInit === 'function') {
+            shareInit(); // 有些版本需要手动触发
         }
     }
 
-    // 绑定分享按钮逻辑（移动端原生分享或复制链接）
+    // 原生分享或复制链接
     document.getElementById('share-button').addEventListener('click', async () => {
         const url = window.location.href;
         const shareTitle = title || '查看图片';
