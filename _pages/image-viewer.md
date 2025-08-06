@@ -4,18 +4,14 @@ permalink: /viewer/
 author_profile: true
 ---
 
-<!-- 引入 share.js 样式和脚本 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/share.js@1.0.16/dist/css/share.min.css">
-<script src="https://cdn.jsdelivr.net/npm/share.js@1.0.16/dist/js/share.min.js"></script>
-
 <style>
 #button-container {
     position: fixed;
     bottom: 24px;
     right: 24px;
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: column; /* 竖直排列 */
+    gap: 12px; /* 按钮间距 */
     z-index: 1000;
 }
 
@@ -29,7 +25,7 @@ author_profile: true
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 120px;
+    width: 120px; /* 统一宽度 */
     text-align: center;
 }
 
@@ -46,11 +42,6 @@ author_profile: true
     background-color: #059669;
     transform: scale(1.08);
 }
-
-.share-component {
-    margin-top: 40px;
-    text-align: center;
-}
 </style>
 
 <div id="button-container">
@@ -60,16 +51,6 @@ author_profile: true
 
 <div id="viewer"></div>
 
-<!-- 社交平台分享按钮 -->
-<div class="share-component"
-     data-sites="wechat,weibo,qq"
-     data-title=""
-     data-description=""
-     data-image=""
-     data-url="">
-</div>
-
-<!-- 注意：Jekyll 中用 raw 标签包裹 JS -->
 {% raw %}
 <script>
 window.onload = function () {
@@ -78,27 +59,11 @@ window.onload = function () {
     const title = params.get('title');
     const desc = params.get('desc');
 
-    // 渲染图片与文字
     const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
                  '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
                  '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
     document.getElementById('viewer').innerHTML = html;
 
-    // 填充 share.js 属性
-    const shareContainer = document.querySelector('.share-component');
-    if (shareContainer) {
-        shareContainer.setAttribute('data-title', title || '查看图片');
-        shareContainer.setAttribute('data-description', desc || '');
-        shareContainer.setAttribute('data-url', window.location.href);
-        shareContainer.setAttribute('data-image', src || '');
-
-        // 初始化 share.js
-        if (typeof window.shareInit === 'function') {
-            shareInit(); // 有些版本需要手动触发
-        }
-    }
-
-    // 原生分享或复制链接
     document.getElementById('share-button').addEventListener('click', async () => {
         const url = window.location.href;
         const shareTitle = title || '查看图片';
