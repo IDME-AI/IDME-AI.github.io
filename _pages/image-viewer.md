@@ -44,12 +44,23 @@ author_profile: true
 }
 </style>
 
+<!-- 引入二维码库 -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
 <div id="button-container">
   <button id="share-button">分享</button>
   <button id="back-button" onclick="history.back()">返回</button>
 </div>
 
 <div id="viewer"></div>
+
+<!-- 二维码弹窗 -->
+<div id="qrcode-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+    background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); z-index:2000;">
+    <div id="qrcode"></div>
+    <button onclick="document.getElementById('qrcode-modal').style.display='none'" 
+            style="margin-top:12px; padding:6px 12px;">关闭</button>
+</div>
 
 {% raw %}
 <script>
@@ -64,31 +75,21 @@ window.onload = function () {
                  '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
     document.getElementById('viewer').innerHTML = html;
 
-    document.getElementById('share-button').addEventListener('click', async () => {
+    document.getElementById('share-button').addEventListener('click', () => {
         const url = window.location.href;
-        const shareTitle = title || '查看图片';
-        const shareText = desc || '来自我的图片分享';
 
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: shareTitle,
-                    text: shareText,
-                    url: url,
-                });
-                console.log('已分享');
-            } catch (err) {
-                console.error('分享失败:', err);
-            }
-        } else {
-            try {
-                await navigator.clipboard.writeText(url);
-                alert('已复制链接，可粘贴发送给好友～');
-            } catch (err) {
-                prompt('复制失败，请手动复制：', url);
-            }
-        }
+        // 显示二维码弹窗
+        document.getElementById('qrcode-modal').style.display = 'block';
+        document.getElementById('qrcode').innerHTML = ''; // 清空上次二维码
+        new QRCode(document.getElementById('qrcode'), {
+            text: url,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+        });
     });
 };
 </script>
 {% endraw %}
+
