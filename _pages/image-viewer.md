@@ -10,8 +10,8 @@ author_profile: true
     bottom: 24px;
     right: 24px;
     display: flex;
-    flex-direction: column; /* 竖直排列 */
-    gap: 12px; /* 按钮间距 */
+    flex-direction: column;
+    gap: 12px;
     z-index: 1000;
 }
 
@@ -25,7 +25,7 @@ author_profile: true
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 120px; /* 统一宽度 */
+    width: 120px;
     text-align: center;
 }
 
@@ -41,6 +41,10 @@ author_profile: true
 #share-button:hover {
     background-color: #059669;
     transform: scale(1.08);
+}
+
+#qrcode-modal button {
+    cursor: pointer;
 }
 </style>
 
@@ -61,26 +65,42 @@ window.onload = function () {
     const title = params.get('title');
     const desc = params.get('desc');
 
-    const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
-                 '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
-                 '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
+    const html = `
+        <h2 style="color:#007acc">${title || ''}</h2>
+        <img src="${src || ''}" style="max-width:90%;border-radius:12px;" />
+        <p style="margin-top:20px;font-size:1.1em;">${desc || ''}</p>
+    `;
     document.getElementById('viewer').innerHTML = html;
 
     document.getElementById('share-button').addEventListener('click', function() {
-        // 创建二维码弹窗
         let modal = document.getElementById('qrcode-modal');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'qrcode-modal';
-            modal.style = "display:block; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); z-index:2000;";
+            modal.style = `
+                display:block;
+                position:fixed;
+                top:50%;
+                left:50%;
+                transform:translate(-50%, -50%);
+                background:white;
+                padding:20px;
+                border-radius:12px;
+                box-shadow:0 4px 12px rgba(0,0,0,0.25);
+                z-index:2000;
+                text-align:center;
+            `;
+            
             const qrcodeDiv = document.createElement('div');
             qrcodeDiv.id = 'qrcode';
             modal.appendChild(qrcodeDiv);
+
             const closeBtn = document.createElement('button');
             closeBtn.innerText = "关闭";
             closeBtn.style = "margin-top:12px; padding:6px 12px;";
             closeBtn.onclick = () => modal.style.display = 'none';
             modal.appendChild(closeBtn);
+
             document.body.appendChild(modal);
         } else {
             modal.style.display = 'block';
@@ -98,4 +118,3 @@ window.onload = function () {
 };
 </script>
 {% endraw %}
-
