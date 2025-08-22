@@ -66,31 +66,36 @@ window.onload = function () {
                  '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
     document.getElementById('viewer').innerHTML = html;
 
-    document.getElementById('share-button').addEventListener('click', async () => {
-        const url = window.location.href;
-        const shareTitle = title || '查看图片';
-        const shareText = desc || '来自我的图片分享';
-
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: shareTitle,
-                    text: shareText,
-                    url: url,
-                });
-                console.log('已分享');
-            } catch (err) {
-                console.error('分享失败:', err);
-            }
+    document.getElementById('share-button').addEventListener('click', function() {
+        // 创建二维码弹窗
+        let modal = document.getElementById('qrcode-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'qrcode-modal';
+            modal.style = "display:block; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.25); z-index:2000;";
+            const qrcodeDiv = document.createElement('div');
+            qrcodeDiv.id = 'qrcode';
+            modal.appendChild(qrcodeDiv);
+            const closeBtn = document.createElement('button');
+            closeBtn.innerText = "关闭";
+            closeBtn.style = "margin-top:12px; padding:6px 12px;";
+            closeBtn.onclick = () => modal.style.display = 'none';
+            modal.appendChild(closeBtn);
+            document.body.appendChild(modal);
         } else {
-            try {
-                await navigator.clipboard.writeText(url);
-                alert('已复制链接，可粘贴发送给好友～');
-            } catch (err) {
-                prompt('复制失败，请手动复制：', url);
-            }
+            modal.style.display = 'block';
+            document.getElementById('qrcode').innerHTML = '';
         }
+
+        new QRCode(document.getElementById('qrcode'), {
+            text: window.location.href,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff"
+        });
     });
 };
 </script>
 {% endraw %}
+
