@@ -24,7 +24,32 @@
     #back-button:hover { background-color: #4338ca; transform: scale(1.08); }
     #share-button { background-color: #10b981; }
     #share-button:hover { background-color: #059669; transform: scale(1.08); }
-    #viewer img { max-width: 90%; border-radius: 12px; }
+
+    #viewer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 0 20px;
+    }
+    #viewer h2 {
+        color: #007acc;
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    #viewer img {
+        max-width: 90%;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    #viewer p {
+        font-size: 1.1em;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+        color: #333;
+    }
 </style>
 
 <div id="button-container">
@@ -41,9 +66,9 @@
         const title = params.get('title');
         const desc = params.get('desc');
 
-        const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
-            '<img src="' + (src || '') + '" />' +
-            '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
+        const html = `<h2>${title || ''}</h2>
+                  <img src="${src || ''}" />
+                  <p>${desc || ''}</p>`;
 
         document.getElementById('viewer').innerHTML = html;
 
@@ -53,15 +78,11 @@
             const shareText = desc || '来自我的图片分享';
 
             if (navigator.share) {
-                try {
-                    await navigator.share({ title: shareTitle, text: shareText, url: url });
-                    console.log('已分享');
-                } catch (err) { console.error('分享失败:', err); }
+                try { await navigator.share({ title: shareTitle, text: shareText, url: url }); }
+                catch (err) { console.error('分享失败:', err); }
             } else {
-                try {
-                    await navigator.clipboard.writeText(url);
-                    alert('已复制链接，可粘贴发送给好友～');
-                } catch (err) { prompt('复制失败，请手动复制：', url); }
+                try { await navigator.clipboard.writeText(url); alert('已复制链接，可粘贴发送给好友～'); }
+                catch (err) { prompt('复制失败，请手动复制：', url); }
             }
         });
     };
