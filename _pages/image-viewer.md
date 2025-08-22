@@ -44,9 +44,6 @@ author_profile: true
 }
 </style>
 
-<!-- 引入二维码库 -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-
 <div id="button-container">
   <button id="share-button">分享</button>
   <button id="back-button" onclick="history.back()">返回</button>
@@ -62,6 +59,9 @@ author_profile: true
             style="margin-top:12px; padding:6px 12px;">关闭</button>
 </div>
 
+<!-- 引入二维码生成库 -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+
 {% raw %}
 <script>
 window.onload = function () {
@@ -70,26 +70,28 @@ window.onload = function () {
     const title = params.get('title');
     const desc = params.get('desc');
 
+    // 渲染页面内容
     const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
                  '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
                  '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
     document.getElementById('viewer').innerHTML = html;
 
-    document.getElementById('share-button').addEventListener('click', () => {
+    // 分享按钮逻辑：生成二维码
+    document.getElementById('share-button').addEventListener('click', function() {
         const url = window.location.href;
+        const modal = document.getElementById('qrcode-modal');
+        const qrcodeDiv = document.getElementById('qrcode');
 
-        // 显示二维码弹窗
-        document.getElementById('qrcode-modal').style.display = 'block';
-        document.getElementById('qrcode').innerHTML = ''; // 清空上次二维码
-        new QRCode(document.getElementById('qrcode'), {
+        modal.style.display = 'block';
+        qrcodeDiv.innerHTML = '';
+        new QRCode(qrcodeDiv, {
             text: url,
             width: 200,
             height: 200,
             colorDark: "#000000",
-            colorLight: "#ffffff",
+            colorLight: "#ffffff"
         });
     });
 };
 </script>
 {% endraw %}
-
