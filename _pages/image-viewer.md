@@ -1,56 +1,118 @@
-<!-- 放置海报结果 -->
-<div id="poster-container" style="display:none; text-align:center; margin-top:20px;"></div>
+---
+layout: archive
+permalink: /viewer/
+author_profile: true
+---
 
-<!-- 引入二维码库 -->
+<style>
+#button-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column; /* 竖直排列 */
+    gap: 12px; /* 按钮间距 */
+    z-index: 1000;
+}
+
+#back-button, #share-button {
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 120px; /* 统一宽度 */
+    text-align: center;
+}
+
+#back-button:hover {
+    background-color: #4338ca;
+    transform: scale(1.08);
+}
+
+#share-button {
+    background-color: #10b981;
+}
+
+#share-button:hover {
+    background-color: #059669;
+    transform: scale(1.08);
+}
+</style>
+
+<div id="button-container">
+  <button id="share-button">分享</button>
+  <button id="back-button" onclick="history.back()">返回</button>
+</div>
+
+<div id="viewer"></div>
+
+{% raw %}
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs2@0.0.2/qrcode.min.js"></script>
-<!-- 引入 html2canvas -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
 <script>
 window.onload = function () {
     const params = new URLSearchParams(window.location.search);
     const src = params.get('src');
     const title = params.get('title');
     const desc = params.get('desc');
-    const shareUrl = window.location.href;  // 当前页面链接
+    const shareUrl = window.location.href;
 
-    const viewer = document.getElementById('viewer');
-    const html = `
-        <div id="poster-content" style="padding:20px; background:#fff; border-radius:12px; display:inline-block; text-align:center;">
+    // 原始展示
+    const html = '<h2 style="color:#007acc">' + (title || '') + '</h2>' +
+                 '<img src="' + (src || '') + '" style="max-width:90%;border-radius:12px;" />' +
+                 '<p style="margin-top:20px;font-size:1.1em;">' + (desc || '') + '</p>';
+    document.getElementById('viewer').innerHTML = html;
+
+    document.getElementById('share-button').addEventListener('click', async () => {
+        // 创建一个隐藏的海报容器
+        const posterWrapper = document.createElement("div");
+        posterWrapper.style.padding = "20px";
+        posterWrapper.style.background = "#fff";
+        posterWrapper.style.borderRadius = "12px";
+        posterWrapper.style.display = "inline-block";
+        posterWrapper.style.textAlign = "center";
+
+        posterWrapper.innerHTML = `
           <h2 style="color:#007acc; margin-bottom:12px;">${title || ''}</h2>
           <img src="${src || ''}" style="max-width:90%;border-radius:12px;" />
           <p style="margin-top:20px;font-size:1.1em;">${desc || ''}</p>
-          <div id="qrcode" style="margin-top:20px;"></div>
+          <div id="qrcode"></div>
           <p style="margin-top:12px; font-size:0.9em; color:#888;">扫码查看详情</p>
-        </div>`;
-    viewer.innerHTML = html;
+        `;
+        document.body.appendChild(posterWrapper);
 
-    // 生成二维码
-    new QRCode(document.getElementById("qrcode"), {
-        text: shareUrl,
-        width: 120,
-        height: 120
-    });
+        // 生成二维码
+        new QRCode(posterWrapper.querySelector("#qrcode"), {
+            text: shareUrl,
+            width: 120,
+            height: 120
+        });
 
-    document.getElementById('share-button').addEventListener('click', async () => {
-        const poster = document.getElementById('poster-content');
-        html2canvas(poster, {useCORS: true}).then(canvas => {
+        // 转为图片
+        html2canvas(posterWrapper, {useCORS: true}).then(canvas => {
             const imgURL = canvas.toDataURL("image/png");
 
-            // 生成海报展示区
-            const posterContainer = document.getElementById('poster-container');
-            posterContainer.style.display = "block";
-            posterContainer.innerHTML = `
-                <img src="${imgURL}" style="max-width:100%; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2);" />
-                <p style="margin-top:10px; font-size:0.9em; color:#666;">长按保存海报，分享到微信</p>
-            `;
+            // 弹出展示海报
+            const win = window.open();
+            win.document.write("<img src='" + imgURL + "' style='max-width:100%;border-radius:12px;'/>");
+            win.document.title = "海报预览";
 
-            // 可选：自动下载
+            // 自动下载
             const link = document.createElement("a");
             link.download = "poster.png";
             link.href = imgURL;
             link.click();
+
+            // 清理临时 DOM
+            document.body.removeChild(posterWrapper);
         });
     });
 };
 </script>
+{% endraw %}
+
