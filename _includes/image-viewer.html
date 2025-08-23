@@ -1,7 +1,3 @@
-<!-- 引入 html2canvas -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
 <style>
     #button-container {
         position: fixed;
@@ -22,13 +18,14 @@
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         transition: background-color 0.3s ease, transform 0.2s ease;
-        width: 140px;
+        width: 120px;
         text-align: center;
     }
     #back-button:hover { background-color: #4338ca; transform: scale(1.08); }
     #share-button { background-color: #10b981; }
     #share-button:hover { background-color: #059669; transform: scale(1.08); }
 
+    /* 优化标题和正文 */
     #viewer {
         text-align: center;
         margin-top: 40px;
@@ -53,26 +50,64 @@
         margin: 0 auto 30px auto;
         color: #333;
     }
-    #poster {
-        display: none; /* 隐藏生成的海报 */
-        margin-top: 20px;
+
+    /* 二维码弹窗 */
+    #qrcode-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+    #qrcode-box {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         text-align: center;
     }
-    #poster img {
-        max-width: 100%;
-        border: 1px solid #ddd;
-        border-radius: 12px;
+    #qrcode {
+        margin: 10px auto;
+    }
+    #close-btn {
+        margin-top: 12px;
+        padding: 6px 14px;
+        background: #ef4444;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    #close-btn:hover { background: #dc2626; }
+
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+        #viewer h2 { font-size: 1.5em; }
+        #viewer p { font-size: 1em; line-height: 1.6; padding: 0 10px; }
+        #viewer img { max-width: 100%; height: auto; }
     }
 </style>
 
 <div id="button-container">
-    <button id="share-button">生成分享图</button>
+    <button id="share-button">分享</button>
     <button id="back-button" onclick="history.back()">返回</button>
 </div>
 
 <div id="viewer"></div>
-<div id="poster"></div>
 
+<!-- 二维码弹窗 -->
+<div id="qrcode-modal">
+    <div id="qrcode-box">
+        <h3>扫码分享</h3>
+        <div id="qrcode"></div>
+        <button id="close-btn">关闭</button>
+    </div>
+</div>
+
+<!-- 引入 qrcode.js -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 <script>
     window.onload = function () {
         const params = new URLSearchParams(window.location.search);
@@ -80,44 +115,29 @@
         const title = params.get('title');
         const desc = params.get('desc');
 
-        const html = `
-        <h2>${title || ''}</h2>
-        <img src="${src || ''}" />
-        <p>${desc || ''}</p>
-    `;
+        const html = `<h2>${title || ''}</h2>
+                      <img src="${src || ''}" />
+                      <p>${desc || ''}</p>`;
         document.getElementById('viewer').innerHTML = html;
 
-        document.getElementById('share-button').addEventListener('click', async () => {
-            const posterContainer = document.getElementById('poster');
+        // 点击分享按钮 → 显示二维码
+        document.getElementById('share-button').addEventListener('click', () => {
             const url = window.location.href;
+            const modal = document.getElementById('qrcode-modal');
+            modal.style.display = 'flex';
 
-            // 生成二维码
-            const qrCanvas = document.createElement('canvas');
-            await QRCode.toCanvas(qrCanvas, url, { width: 120 });
-
-            // 拼接临时内容
-            const tempDiv = document.createElement('div');
-            tempDiv.style.width = "600px";
-            tempDiv.style.background = "#fff";
-            tempDiv.style.padding = "20px";
-            tempDiv.style.textAlign = "center";
-            tempDiv.innerHTML = `
-            <h2 style="color:#007acc;margin-bottom:20px;">${title || ''}</h2>
-            <img src="${src || ''}" style="max-width:100%;border-radius:12px;margin-bottom:20px;" />
-            <p style="font-size:1.1em;color:#333;line-height:1.6;margin-bottom:20px;">${desc || ''}</p>
-            <div style="margin-top:10px;font-size:0.9em;color:#666;">扫码查看完整内容</div>
-        `;
-            tempDiv.appendChild(qrCanvas);
-
-            // 转成海报
-            html2canvas(tempDiv, { scale: 2 }).then(canvas => {
-                posterContainer.style.display = 'block';
-                posterContainer.innerHTML = `
-                <img src="${canvas.toDataURL('image/png')}" />
-            `;
-                alert('长按图片即可保存，分享到微信～');
+            // 清空旧二维码，避免多次生成叠加
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 200,
+                height: 200
             });
         });
-    };
 
+        // 关闭二维码弹窗
+        document.getElementById('close-btn').addEventListener('click', () => {
+            document.getElementById('qrcode-modal').style.display = 'none';
+        });
+    };
 </script>
