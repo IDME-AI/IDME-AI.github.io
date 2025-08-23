@@ -1,0 +1,105 @@
+<style>
+    #button-container {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 1000;
+    }
+    #back-button, #share-button {
+        background-color: #4f46e5;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 120px;
+        text-align: center;
+    }
+    #back-button:hover { background-color: #4338ca; transform: scale(1.08); }
+    #share-button { background-color: #10b981; }
+    #share-button:hover { background-color: #059669; transform: scale(1.08); }
+
+    /* 优化标题和正文 */
+    #viewer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 0 20px;
+    }
+    #viewer h2 {
+        color: #007acc;
+        font-size: 1.8em;       /* 大标题 */
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    #viewer img {
+        max-width: 90%;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    #viewer p {
+        font-size: 1.2em;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+        color: #333;
+    }
+
+    /* 响应式优化 */
+    @media (max-width: 768px) {
+        #viewer h2 {
+            font-size: 1.5em;  /* 手机屏幕标题缩小 */
+        }
+        #viewer p {
+            font-size: 1em;    /* 正文缩小 */
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+        #viewer img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+</style>
+
+<div id="button-container">
+    <button id="share-button">分享</button>
+    <button id="back-button" onclick="history.back()">返回</button>
+</div>
+
+<div id="viewer"></div>
+
+<script>
+    window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const src = params.get('src');
+        const title = params.get('title');
+        const desc = params.get('desc');
+
+        const html = `<h2>${title || ''}</h2>
+                  <img src="${src || ''}" />
+                  <p>${desc || ''}</p>`;
+
+        document.getElementById('viewer').innerHTML = html;
+
+        document.getElementById('share-button').addEventListener('click', async () => {
+            const url = window.location.href;
+            const shareTitle = title || '查看图片';
+            const shareText = desc || '来自我的图片分享';
+
+            if (navigator.share) {
+                try { await navigator.share({ title: shareTitle, text: shareText, url: url }); }
+                catch (err) { console.error('分享失败:', err); }
+            } else {
+                try { await navigator.clipboard.writeText(url); alert('已复制链接，可粘贴发送给好友～'); }
+                catch (err) { prompt('复制失败，请手动复制：', url); }
+            }
+        });
+    };
+</script>
