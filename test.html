@@ -84,23 +84,21 @@
             flex-direction: column;
             padding: 20px;
         }
+
         /* 海报整体容器 */
         #poster-container {
             background: #fff;
             border-radius: 16px;
-            max-width: 420px;
-            width: 100%;
+            width: 90vw;          /* 手机屏幕自适应宽度 */
+            max-width: 420px;     /* PC最大宽度 */
             text-align: center;
             overflow: hidden;
-            max-height: 90vh;   /* 限制海报整体高度，避免溢出屏幕 */
             display: flex;
             flex-direction: column;
         }
 
         /* 海报主体内容 */
         #poster-content {
-            flex: 1;
-            overflow: auto;     /* 超出部分可滚动，但一般不会溢出 */
             background: linear-gradient(135deg, #4f46e5, #3b82f6);
             color: #fff;
             padding: 20px;
@@ -109,17 +107,18 @@
         /* 海报里的图片 */
         #poster-image {
             max-width: 100%;
-            max-height: 260px;  /* 限制海报里图片的高度 */
+            height: auto;          /* 高度自适应内容 */
             border-radius: 12px;
             margin: 15px 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
+
+        /* 文字 */
         #poster-title {
             font-size: 1.6em;
             margin-bottom: 15px;
             font-weight: bold;
         }
-
         #poster-desc {
             font-size: 1em;
             color: #f9f9f9;
@@ -139,7 +138,7 @@
             opacity: 0.9;
         }
 
-        /* 按钮单独放在外面，不进入截图 */
+        /* 按钮容器 */
         #poster-buttons {
             display: flex;
             gap: 12px;
@@ -157,6 +156,12 @@
         }
         #download-poster { background: #10b981; }
         #close-poster { background: #ef4444; }
+
+        /* 手机小屏幕适配 */
+        @media (max-width: 480px) {
+            #poster-title { font-size: 1.3em; }
+            #poster-desc { font-size: 0.9em; }
+        }
     </style>
 </head>
 <body>
@@ -198,10 +203,10 @@
 
         // 页面展示
         document.getElementById('viewer').innerHTML = `
-      <h2>${title || ''}</h2>
-      <img src="${src || ''}" alt="${title || ''}" />
-      <p>${desc || ''}</p>
-    `;
+    <h2>${title || ''}</h2>
+    <img src="${src || ''}" alt="${title || ''}" />
+    <p>${desc || ''}</p>
+  `;
 
         // 分享按钮 -> 打开海报
         document.getElementById('share-button').addEventListener('click', () => {
