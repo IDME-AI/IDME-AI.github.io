@@ -69,6 +69,30 @@
             #viewer p { font-size: 1em; line-height: 1.6; padding: 0 10px; }
             #viewer img { max-width: 100%; height: auto; }
         }
+
+        /* 二维码遮罩层 */
+        #qrcode-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+            color: white;
+        }
+        #qrcode {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        #qrcode-overlay p {
+            margin-top: 15px;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +106,15 @@
 <!-- 图片内容容器 -->
 <div id="viewer"></div>
 
+<!-- 二维码弹窗 -->
+<div id="qrcode-overlay" onclick="this.style.display='none'">
+    <div id="qrcode"></div>
+    <p>扫码查看此页面</p>
+</div>
+
+<!-- 引入 qrcode.js -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 <script>
     window.onload = function () {
         const params = new URLSearchParams(window.location.search);
@@ -91,25 +124,22 @@
 
         // 动态生成 HTML
         const html = `
-        <h2>${title || ''}</h2>
-        <img src="${src || ''}" alt="${title || ''}" />
-        <p>${desc || ''}</p>
-    `;
+            <h2>${title || ''}</h2>
+            <img src="${src || ''}" alt="${title || ''}" />
+            <p>${desc || ''}</p>
+        `;
         document.getElementById('viewer').innerHTML = html;
 
-        // 分享按钮逻辑
-        document.getElementById('share-button').addEventListener('click', async () => {
+        // 分享按钮 -> 生成二维码
+        document.getElementById('share-button').addEventListener('click', () => {
             const url = window.location.href;
-            const shareTitle = title || '查看图片';
-            const shareText = desc || '来自我的图片分享';
-
-            if (navigator.share) {
-                try { await navigator.share({ title: shareTitle, text: shareText, url: url }); }
-                catch (err) { console.error('分享失败:', err); }
-            } else {
-                try { await navigator.clipboard.writeText(url); alert('已复制链接，可粘贴发送给好友～'); }
-                catch (err) { prompt('复制失败，请手动复制：', url); }
-            }
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = ""; // 清空旧二维码
+            QRCode.toCanvas(document.createElement('canvas'), url, { width: 220 }, function (err, canvas) {
+                if (err) console.error(err);
+                qrcodeContainer.appendChild(canvas);
+            });
+            document.getElementById('qrcode-overlay').style.display = 'flex';
         });
     };
 </script>
