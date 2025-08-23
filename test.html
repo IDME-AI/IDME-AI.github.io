@@ -32,13 +32,9 @@
             text-align: center;
             color: #fff;
         }
-        #back-button {
-            background-color: #4f46e5;
-        }
+        #back-button { background-color: #4f46e5; }
         #back-button:hover { background-color: #4338ca; transform: scale(1.08); }
-        #share-button {
-            background-color: #10b981;
-        }
+        #share-button { background-color: #10b981; }
         #share-button:hover { background-color: #059669; transform: scale(1.08); }
 
         /* 图片和文字内容 */
@@ -89,33 +85,55 @@
         }
         #poster-container {
             background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 480px;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 100%;
             text-align: center;
+            overflow: hidden;
         }
-        #poster-container h2 {
-            color: #007acc;
+        /* 单独包一层，下载时只截取这一部分 */
+        #poster-content {
+            background: linear-gradient(135deg, #4f46e5, #3b82f6);
+            color: #fff;
+            padding: 20px;
+        }
+        #poster-title {
+            font-size: 1.6em;
             margin-bottom: 15px;
+            font-weight: bold;
         }
-        #poster-container img {
+        #poster-image {
             max-width: 100%;
             border-radius: 12px;
-            margin-bottom: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        #poster-container p {
+        #poster-desc {
             font-size: 1em;
-            color: #333;
+            color: #f9f9f9;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
         #poster-qrcode {
-            margin: 10px auto;
+            margin: 15px auto 8px auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 12px;
+            width: fit-content;
         }
+        #poster-tip {
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        /* 按钮单独放在外面，不进入截图 */
         #poster-buttons {
-            margin-top: 15px;
             display: flex;
             gap: 12px;
             justify-content: center;
+            background: #fff;
+            padding: 12px;
         }
         #poster-buttons button {
             border: none;
@@ -143,10 +161,15 @@
 <!-- 海报弹窗 -->
 <div id="poster-overlay">
     <div id="poster-container">
-        <h2 id="poster-title"></h2>
-        <img id="poster-image" src="" alt="">
-        <p id="poster-desc"></p>
-        <div id="poster-qrcode"></div>
+        <!-- 下载只截取这一部分 -->
+        <div id="poster-content">
+            <h2 id="poster-title"></h2>
+            <img id="poster-image" src="" alt="">
+            <p id="poster-desc"></p>
+            <div id="poster-qrcode"></div>
+            <p id="poster-tip">扫码查看详情</p>
+        </div>
+        <!-- 操作按钮 -->
         <div id="poster-buttons">
             <button id="download-poster">下载海报</button>
             <button id="close-poster">关闭</button>
@@ -162,16 +185,14 @@
         const desc = params.get('desc');
 
         // 页面展示
-        const html = `
-            <h2>${title || ''}</h2>
-            <img src="${src || ''}" alt="${title || ''}" />
-            <p>${desc || ''}</p>
-        `;
-        document.getElementById('viewer').innerHTML = html;
+        document.getElementById('viewer').innerHTML = `
+      <h2>${title || ''}</h2>
+      <img src="${src || ''}" alt="${title || ''}" />
+      <p>${desc || ''}</p>
+    `;
 
         // 分享按钮 -> 打开海报
         document.getElementById('share-button').addEventListener('click', () => {
-            // 填充海报内容
             document.getElementById('poster-title').innerText = title || '';
             document.getElementById('poster-image').src = src || '';
             document.getElementById('poster-desc').innerText = desc || '';
@@ -180,24 +201,23 @@
             const url = window.location.href;
             const qrcodeContainer = document.getElementById('poster-qrcode');
             qrcodeContainer.innerHTML = "";
-            QRCode.toCanvas(document.createElement('canvas'), url, { width: 160 }, function (err, canvas) {
+            QRCode.toCanvas(document.createElement('canvas'), url, { width: 120 }, function (err, canvas) {
                 if (err) console.error(err);
                 qrcodeContainer.appendChild(canvas);
             });
 
-            // 显示海报
             document.getElementById('poster-overlay').style.display = 'flex';
         });
 
-        // 关闭海报
+        // 关闭
         document.getElementById('close-poster').addEventListener('click', () => {
             document.getElementById('poster-overlay').style.display = 'none';
         });
 
-        // 下载海报
+        // 下载
         document.getElementById('download-poster').addEventListener('click', () => {
-            const poster = document.getElementById('poster-container');
-            html2canvas(poster, { scale: 2 }).then(canvas => {
+            const posterContent = document.getElementById('poster-content');
+            html2canvas(posterContent, { scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'poster.png';
                 link.href = canvas.toDataURL("image/png");
