@@ -115,9 +115,11 @@
         const title = params.get('title');
         const desc = params.get('desc');
 
-        const html = `<h2>${title || ''}</h2>
-                      <img src="${src || ''}" />
-                      <p>${desc || ''}</p>`;
+        // 普通字符串拼接，避免反引号导致 Jekyll 报错
+        const html = '<h2>' + (title || '') + '</h2>'
+            + '<img src="' + (src || '') + '" />'
+            + '<p>' + (desc || '') + '</p>';
+
         document.getElementById('viewer').innerHTML = html;
 
         // 点击分享按钮 → 显示二维码
@@ -126,7 +128,7 @@
             const modal = document.getElementById('qrcode-modal');
             modal.style.display = 'flex';
 
-            // 清空旧二维码，避免多次生成叠加
+            // 清空旧二维码
             document.getElementById('qrcode').innerHTML = "";
             new QRCode(document.getElementById("qrcode"), {
                 text: url,
@@ -141,3 +143,4 @@
         });
     };
 </script>
+
