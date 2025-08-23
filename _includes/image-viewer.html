@@ -1,3 +1,13 @@
+---
+layout: archive
+permalink: /viewer/
+author_profile: true
+---
+
+<!-- 引入 html2canvas -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 <style>
     #button-container {
         position: fixed;
@@ -18,14 +28,13 @@
         cursor: pointer;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         transition: background-color 0.3s ease, transform 0.2s ease;
-        width: 120px;
+        width: 140px;
         text-align: center;
     }
     #back-button:hover { background-color: #4338ca; transform: scale(1.08); }
     #share-button { background-color: #10b981; }
     #share-button:hover { background-color: #059669; transform: scale(1.08); }
 
-    /* 优化标题和正文 */
     #viewer {
         text-align: center;
         margin-top: 40px;
@@ -33,7 +42,7 @@
     }
     #viewer h2 {
         color: #007acc;
-        font-size: 1.8em;       /* 大标题 */
+        font-size: 1.8em;
         font-weight: 700;
         margin-bottom: 20px;
     }
@@ -50,30 +59,25 @@
         margin: 0 auto 30px auto;
         color: #333;
     }
-
-    /* 响应式优化 */
-    @media (max-width: 768px) {
-        #viewer h2 {
-            font-size: 1.5em;  /* 手机屏幕标题缩小 */
-        }
-        #viewer p {
-            font-size: 1em;    /* 正文缩小 */
-            line-height: 1.6;
-            padding: 0 10px;
-        }
-        #viewer img {
-            max-width: 100%;
-            height: auto;
-        }
+    #poster {
+        display: none; /* 隐藏生成的海报 */
+        margin-top: 20px;
+        text-align: center;
+    }
+    #poster img {
+        max-width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 12px;
     }
 </style>
 
 <div id="button-container">
-    <button id="share-button">分享</button>
+    <button id="share-button">生成分享图</button>
     <button id="back-button" onclick="history.back()">返回</button>
 </div>
 
 <div id="viewer"></div>
+<div id="poster"></div>
 
 <script>
     window.onload = function () {
@@ -82,24 +86,45 @@
         const title = params.get('title');
         const desc = params.get('desc');
 
-        const html = `<h2>${title || ''}</h2>
-                  <img src="${src || ''}" />
-                  <p>${desc || ''}</p>`;
+        const html = `
+            <h2>${title || ''}</h2>
+            <img src="${src || ''}" />
+            <p>${desc || ''}</p>
+        `;
 
         document.getElementById('viewer').innerHTML = html;
 
         document.getElementById('share-button').addEventListener('click', async () => {
-            const url = window.location.href;
-            const shareTitle = title || '查看图片';
-            const shareText = desc || '来自我的图片分享';
+            const viewer = document.getElementById('viewer');
+            const posterContainer = document.getElementById('poster');
 
-            if (navigator.share) {
-                try { await navigator.share({ title: shareTitle, text: shareText, url: url }); }
-                catch (err) { console.error('分享失败:', err); }
-            } else {
-                try { await navigator.clipboard.writeText(url); alert('已复制链接，可粘贴发送给好友～'); }
-                catch (err) { prompt('复制失败，请手动复制：', url); }
-            }
+            // 生成二维码
+            const url = window.location.href;
+            const qrCanvas = document.createElement('canvas');
+            await QRCode.toCanvas(qrCanvas, url, { width: 120 });
+
+            // 创建一个临时容器用于拼接海报内容
+            const tempDiv = document.createElement('div');
+            tempDiv.style.width = "600px";
+            tempDiv.style.background = "#fff";
+            tempDiv.style.padding = "20px";
+            tempDiv.style.textAlign = "center";
+            tempDiv.innerHTML = `
+                <h2 style="color:#007acc;margin-bottom:20px;">${title || ''}</h2>
+                <img src="${src || ''}" style="max-width:100%;border-radius:12px;margin-bottom:20px;" />
+                <p style="font-size:1.1em;color:#333;line-height:1.6;margin-bottom:20px;">
+                    ${desc || ''}
+                </p>
+                <div style="margin-top:10px;font-size:0.9em;color:#666;">扫码查看完整内容</div>
+            `;
+            tempDiv.appendChild(qrCanvas);
+
+            // 用 html2canvas 生成图片
+            html2canvas(tempDiv, { scale: 2 }).then(canvas => {
+                posterContainer.style.display = 'block';
+                posterContainer.innerHTML = `<img src="${canvas.toDataURL('image/png')}" />`;
+                alert('长按图片即可保存，分享到微信～');
+            });
         });
     };
 </script>
