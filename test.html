@@ -104,14 +104,17 @@
             padding: 20px;
         }
 
-        /* 海报里的图片 */
         #poster-image {
-            max-width: 100%;
-            height: auto;          /* 高度自适应内容 */
+            max-width: 100%;      /* 宽度随容器变化 */
+            max-height: 300px;    /* 最大高度固定 */
+            width: auto;          /* 保持宽高比例 */
+            height: auto;
             border-radius: 12px;
             margin: 15px 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            object-fit: contain;  /* 防止图片拉伸 */
         }
+
 
         /* 文字 */
         #poster-title {
