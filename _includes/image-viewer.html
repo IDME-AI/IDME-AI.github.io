@@ -81,43 +81,43 @@
         const desc = params.get('desc');
 
         const html = `
-            <h2>${title || ''}</h2>
-            <img src="${src || ''}" />
-            <p>${desc || ''}</p>
-        `;
-
+        <h2>${title || ''}</h2>
+        <img src="${src || ''}" />
+        <p>${desc || ''}</p>
+    `;
         document.getElementById('viewer').innerHTML = html;
 
         document.getElementById('share-button').addEventListener('click', async () => {
             const posterContainer = document.getElementById('poster');
+            const url = window.location.href;
 
             // 生成二维码
-            const url = window.location.href;
             const qrCanvas = document.createElement('canvas');
             await QRCode.toCanvas(qrCanvas, url, { width: 120 });
 
-            // 创建一个临时容器用于拼接海报内容
+            // 拼接临时内容
             const tempDiv = document.createElement('div');
             tempDiv.style.width = "600px";
             tempDiv.style.background = "#fff";
             tempDiv.style.padding = "20px";
             tempDiv.style.textAlign = "center";
             tempDiv.innerHTML = `
-                <h2 style="color:#007acc;margin-bottom:20px;">${title || ''}</h2>
-                <img src="${src || ''}" style="max-width:100%;border-radius:12px;margin-bottom:20px;" />
-                <p style="font-size:1.1em;color:#333;line-height:1.6;margin-bottom:20px;">
-                    ${desc || ''}
-                </p>
-                <div style="margin-top:10px;font-size:0.9em;color:#666;">扫码查看完整内容</div>
-            `;
+            <h2 style="color:#007acc;margin-bottom:20px;">${title || ''}</h2>
+            <img src="${src || ''}" style="max-width:100%;border-radius:12px;margin-bottom:20px;" />
+            <p style="font-size:1.1em;color:#333;line-height:1.6;margin-bottom:20px;">${desc || ''}</p>
+            <div style="margin-top:10px;font-size:0.9em;color:#666;">扫码查看完整内容</div>
+        `;
             tempDiv.appendChild(qrCanvas);
 
-            // 用 html2canvas 生成图片
+            // 转成海报
             html2canvas(tempDiv, { scale: 2 }).then(canvas => {
                 posterContainer.style.display = 'block';
-                posterContainer.innerHTML = `<img src="${canvas.toDataURL('image/png')}" />`;
+                posterContainer.innerHTML = `
+                <img src="${canvas.toDataURL('image/png')}" />
+            `;
                 alert('长按图片即可保存，分享到微信～');
             });
         });
     };
+
 </script>
