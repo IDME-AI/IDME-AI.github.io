@@ -33,7 +33,7 @@
     }
     #viewer h2 {
         color: #007acc;
-        font-size: 1.8em;
+        font-size: 1.8em;       /* 大标题 */
         font-weight: 700;
         margin-bottom: 20px;
     }
@@ -51,42 +51,20 @@
         color: #333;
     }
 
-    /* 二维码弹窗 */
-    #qrcode-modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-        justify-content: center;
-        align-items: center;
-        z-index: 2000;
-    }
-    #qrcode-box {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-        text-align: center;
-    }
-    #qrcode {
-        margin: 10px auto;
-    }
-    #close-btn {
-        margin-top: 12px;
-        padding: 6px 14px;
-        background: #ef4444;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-    #close-btn:hover { background: #dc2626; }
-
     /* 响应式优化 */
     @media (max-width: 768px) {
-        #viewer h2 { font-size: 1.5em; }
-        #viewer p { font-size: 1em; line-height: 1.6; padding: 0 10px; }
-        #viewer img { max-width: 100%; height: auto; }
+        #viewer h2 {
+            font-size: 1.5em;  /* 手机屏幕标题缩小 */
+        }
+        #viewer p {
+            font-size: 1em;    /* 正文缩小 */
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+        #viewer img {
+            max-width: 100%;
+            height: auto;
+        }
     }
 </style>
 
@@ -97,17 +75,6 @@
 
 <div id="viewer"></div>
 
-<!-- 二维码弹窗 -->
-<div id="qrcode-modal">
-    <div id="qrcode-box">
-        <h3>扫码分享</h3>
-        <div id="qrcode"></div>
-        <button id="close-btn">关闭</button>
-    </div>
-</div>
-
-<!-- 引入 qrcode.js -->
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 <script>
     window.onload = function () {
         const params = new URLSearchParams(window.location.search);
@@ -115,32 +82,24 @@
         const title = params.get('title');
         const desc = params.get('desc');
 
-        // 普通字符串拼接，避免反引号导致 Jekyll 报错
-        const html = '<h2>' + (title || '') + '</h2>'
-            + '<img src="' + (src || '') + '" />'
-            + '<p>' + (desc || '') + '</p>';
+        const html = `<h2>${title || ''}</h2>
+                  <img src="${src || ''}" />
+                  <p>${desc || ''}</p>`;
 
         document.getElementById('viewer').innerHTML = html;
 
-        // 点击分享按钮 → 显示二维码
-        document.getElementById('share-button').addEventListener('click', () => {
+        document.getElementById('share-button').addEventListener('click', async () => {
             const url = window.location.href;
-            const modal = document.getElementById('qrcode-modal');
-            modal.style.display = 'flex';
+            const shareTitle = title || '查看图片';
+            const shareText = desc || '来自我的图片分享';
 
-            // 清空旧二维码
-            document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById("qrcode"), {
-                text: url,
-                width: 200,
-                height: 200
-            });
-        });
-
-        // 关闭二维码弹窗
-        document.getElementById('close-btn').addEventListener('click', () => {
-            document.getElementById('qrcode-modal').style.display = 'none';
+            if (navigator.share) {
+                try { await navigator.share({ title: shareTitle, text: shareText, url: url }); }
+                catch (err) { console.error('分享失败:', err); }
+            } else {
+                try { await navigator.clipboard.writeText(url); alert('已复制链接，可粘贴发送给好友～'); }
+                catch (err) { prompt('复制失败，请手动复制：', url); }
+            }
         });
     };
 </script>
-
