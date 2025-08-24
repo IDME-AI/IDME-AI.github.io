@@ -115,7 +115,6 @@
             object-fit: contain;  /* 防止图片拉伸 */
         }
 
-
         /* 文字 */
         #poster-title {
             font-size: 1.6em;
@@ -160,10 +159,17 @@
         #download-poster { background: #10b981; }
         #close-poster { background: #ef4444; }
 
-        /* 手机小屏幕适配 */
+        /* 手机小屏幕适配（预览缩小） */
         @media (max-width: 480px) {
             #poster-title { font-size: 1.3em; }
             #poster-desc { font-size: 0.9em; }
+
+            #poster-container {
+                transform: scale(0.85);       /* 整体缩小 */
+                transform-origin: top center; /* 从上方居中缩放 */
+                max-height: 90vh;             /* 不超过屏幕高度 */
+                overflow-y: auto;             /* 超出可滚动 */
+            }
         }
     </style>
 </head>
