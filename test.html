@@ -227,12 +227,13 @@
             const url = window.location.href;
             const qrcodeContainer = document.getElementById('poster-qrcode');
             qrcodeContainer.innerHTML = "";
-            QRCode.toDataURL(url, { width: 200, margin: 2 }, function (err, dataUrl) {
+            QRCode.toDataURL(url, { width: 600, margin: 4 }, function (err, dataUrl) {
                 if (err) console.error(err);
                 const img = document.createElement("img");
                 img.src = dataUrl;
-                img.style.width = "200px";
-                img.style.height = "200px";
+                // 显示时仍然控制为原来大小（比如 120px）
+                img.style.width = "120px";
+                img.style.height = "120px";
                 qrcodeContainer.appendChild(img);
             });
 
