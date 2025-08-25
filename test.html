@@ -134,10 +134,6 @@
             border-radius: 12px;
             width: fit-content;
         }
-        #poster-qrcode canvas {
-            width: 120px;   /* 显示大小 */
-            height: 120px;
-        }
         #poster-tip {
             font-size: 0.9em;
             margin-bottom: 15px;
@@ -231,9 +227,13 @@
             const url = window.location.href;
             const qrcodeContainer = document.getElementById('poster-qrcode');
             qrcodeContainer.innerHTML = "";
-            QRCode.toCanvas(document.createElement('canvas'), url, { width: 300 }, function (err, canvas) {
+            QRCode.toDataURL(url, { width: 200, margin: 2 }, function (err, dataUrl) {
                 if (err) console.error(err);
-                qrcodeContainer.appendChild(canvas);
+                const img = document.createElement("img");
+                img.src = dataUrl;
+                img.style.width = "200px";
+                img.style.height = "200px";
+                qrcodeContainer.appendChild(img);
             });
 
 
