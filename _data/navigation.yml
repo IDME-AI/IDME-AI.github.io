@@ -21,7 +21,7 @@ main:
     url: /services/
 
   - title: "Courses"
-    url: /teaching/
+    url: /courses/
 
   - title: "Graduates"
     url: /graduates/

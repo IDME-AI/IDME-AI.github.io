@@ -1,7 +1,7 @@
 ---
 layout: archive
 title: "IDME-AI Group"
-permalink: /products/
+permalink: /idmeai/
 author_profile: true
 ---
 
