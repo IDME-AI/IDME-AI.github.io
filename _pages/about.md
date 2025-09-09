@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "毕鑫"
+title: "Homepage"
 author_profile: true
 redirect_from: 
   - /about/
