@@ -204,7 +204,6 @@
                 const item = document.createElement("div");
                 item.className = "gallery-item";
                 item.onclick = () => {
-                    // const url = new URL('/test.html', window.location.origin);
                     const url = new URL('/viewer/', window.location.origin);
                     url.searchParams.set('src', img.src);
                     url.searchParams.set('title', img.title);
