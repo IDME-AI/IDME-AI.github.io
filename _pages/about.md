@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 <p style="text-align: justify; text-justify: inter-word;">
-毕鑫，副教授，博士生导师，沈阳市高层次人才（领军人才），CCF数据库专委执委，CSRME人工智能专委常委，iGEO期刊青年编委，光合基金领军专家，东北大学重大科技基础设施协同总控与大数据云平台负责人。
+毕鑫，副教授，博士生导师，沈阳市高层次人才（领军人才），CCF数据库专委执委，CSRME人工智能专委常委，人工智能与地下工程专家团队委员会副主任，iGEO期刊青年编委，光合基金领军专家，东北大学重大科技基础设施协同总控与大数据云平台负责人。
 </p>
 
 <p style="text-align: justify; text-justify: inter-word;">
