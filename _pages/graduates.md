@@ -121,6 +121,11 @@ author_profile: true
       <div class="logo-caption logo-org">粤港澳大湾区数字经济研究院</div>
     </div>
     <div class="logo-wrapper">
+      <div class="logo-card"><img src="/images/enterprise/中科院光机所.jpg" alt="企业3"></div>
+      <div class="logo-caption">孙彬弘</div>
+      <div class="logo-caption logo-org">中科院光机所</div>
+    </div>
+    <div class="logo-wrapper">
       <div class="logo-card"><img src="/images/enterprise/微信.png" alt="企业4"></div>
       <div class="logo-caption">刘浩</div>
       <div class="logo-caption logo-org">微信</div>
